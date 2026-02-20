@@ -12,6 +12,7 @@
   <style>
     /* =========================
        排版防禦系統 (Previewer Fallback CSS)
+       確保沒有 Bootstrap 時，版面依然完美對齊
        ========================= */
     .row { display: flex; flex-wrap: wrap; margin-left: -5px; margin-right: -5px; }
     .col-5 { width: 41.666%; padding-left: 5px; padding-right: 5px; box-sizing: border-box; }
@@ -537,7 +538,7 @@
        客製化安全防呆 Modal 系統 (拒絕環境封鎖)
        ========================= -->
        
-  <!-- 1. 客製化刪除確認視窗 (取代 window.confirm) -->
+  <!-- 1. 客製化刪除/重置確認視窗 (取代 window.confirm) -->
   <div class="modal fade" id="customConfirmModal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
@@ -575,7 +576,7 @@
       <div class="modal-content" style="background:transparent; border:none; box-shadow:none; padding:0;">
         <div class="modal-body p-0" id="guide-content"></div>
         <div class="text-center mt-3">
-            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; margin:0 auto;"><svg class="lucide"><use href="#icon-x"/></svg></button>
+            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; display:flex; align-items:center; justify-content:center; margin:0 auto;"><svg class="lucide"><use href="#icon-x"/></svg></button>
         </div>
       </div>
     </div>
@@ -633,14 +634,12 @@
        TDC Miles Tool v12.5 終極純淨隔離版
        ========================= */
 
-    // 【重要核心更新】更改為全新隔離的資料庫金鑰，確保不影響 v12.32，且呈現全新乾淨狀態
+    // 【核心防護 1】隔離資料庫，保護 12.32 舊有資料，確保 12.5 為全新乾淨狀態
     const DB_KEY = 'MILES_APP_V12_5_ISOLATED'; 
     const RULES_KEY = 'MILES_APP_RULES_V12_5';
     let correctionTarget = { id: null, name: null };
     let editAssetTargetIdx = null;
     let plannerSelectedAssets = new Set();
-    
-    // 客製化安全防呆系統變數
     let pendingConfirmCallback = null;
     
     const BUILTIN_DEFS = [
@@ -674,47 +673,53 @@
         'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
     };
 
-    // --- AWARD PLANNER 2026 終極精算資料庫 (國泰網址更新版) ---
+    // 【核心防護 2】字串拼接法：防範平台自動將網址轉為 Markdown 造成結構破壞
+    const urlCI = 'https://' + '[www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)';
+    const urlBR = 'https://' + '[www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)';
+    const urlCX = 'https://' + '[www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)';
+    const urlANA_self = 'https://' + 'www.ana.co.jp/zh/tw/amc/international-flight-awards/';
+    const urlANA_star = 'https://' + 'www.ana.co.jp/zh/tw/amc/partner-flight-awards/';
+
     const AWARD_CHARTS = {
         'JP_KR': { 
             name: '東北亞 (日/韓)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)', Y: 35000, C: 60000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 35000, C: 50000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)', Y: 20000, C: 56000, F: 86000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:17000, R:20000, H:23000 }, C: { L:35000, R:40000, H:43000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 20000, C: 43000, F: -1 } 
+            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: urlCI, Y: 35000, C: 60000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: urlBR, Y: 35000, C: 50000, F: -1 }, 
+            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: urlCX, Y: 20000, C: 56000, F: 86000 }, 
+            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: urlANA_self, Y: { L:17000, R:20000, H:23000 }, C: { L:35000, R:40000, H:43000 }, F: { L:-1, R:-1, H:-1 } }, 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: urlANA_star, Y: 20000, C: 43000, F: -1 } 
         },
         'SE_ASIA': { 
             name: '東南亞', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)', Y: 35000, C: 60000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 35000, C: 50000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)', Y: 20000, C: 56000, F: 86000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:30000, R:35000, H:38000 }, C: { L:55000, R:60000, H:63000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 35000, C: 60000, F: -1 } 
+            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: urlCI, Y: 35000, C: 60000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: urlBR, Y: 35000, C: 50000, F: -1 }, 
+            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: urlCX, Y: 20000, C: 56000, F: 86000 }, 
+            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: urlANA_self, Y: { L:30000, R:35000, H:38000 }, C: { L:55000, R:60000, H:63000 }, F: { L:-1, R:-1, H:-1 } }, 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: urlANA_star, Y: 35000, C: 60000, F: -1 } 
         },
         'NA_W': { 
             name: '北美洲 - 西岸 (LAX/SFO)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)', Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)', Y: 76000, C: 168000, F: 250000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 60000, C: 95000, F: 135000 } 
+            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: urlCI, Y: 100000, C: 160000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: urlBR, Y: 100000, C: 150000, F: -1 }, 
+            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: urlCX, Y: 76000, C: 168000, F: 250000 }, 
+            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: urlANA_self, Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: urlANA_star, Y: 60000, C: 95000, F: 135000 } 
         },
         'NA_E': { 
             name: '北美洲 - 東岸 (JFK)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)', Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)', Y: 100000, C: 220000, F: 330000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 60000, C: 95000, F: 135000 } 
+            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: urlCI, Y: 100000, C: 160000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: urlBR, Y: 100000, C: 150000, F: -1 }, 
+            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: urlCX, Y: 100000, C: 220000, F: 330000 }, 
+            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: urlANA_self, Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: urlANA_star, Y: 60000, C: 95000, F: 135000 } 
         },
         'EU': { 
             name: '歐洲', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket](https://www.china-airlines.com/tw/zh/member/redeem-airline-miles/reward-ticket)', Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_TW.html](https://www.cathaypacific.com/cx/zh_TW.html)', Y: 76000, C: 168000, F: 250000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:55000, R:60000, H:65000 }, C: { L:90000, R:95000, H:100000 }, F: { L:165000, R:165000, H:165000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 65000, C: 115000, F: 165000 } 
+            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', link: urlCI, Y: 100000, C: 160000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: urlBR, Y: 100000, C: 150000, F: -1 }, 
+            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: urlCX, Y: 76000, C: 168000, F: 250000 }, 
+            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: urlANA_self, Y: { L:55000, R:60000, H:65000 }, C: { L:90000, R:95000, H:100000 }, F: { L:165000, R:165000, H:165000 } }, 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: urlANA_star, Y: 65000, C: 115000, F: 165000 } 
         }
     };
 
@@ -899,7 +904,7 @@
         }
     }
 
-    // --- 客製化安全刪除邏輯 (拒絕 window.confirm 封鎖) ---
+    // --- 客製化安全刪除邏輯 (保護舊版，安全運行) ---
     function delTx(monthKey, txId) {
         showCustomConfirm('確定要刪除這筆紀錄嗎？<br><small class="text-muted">（同時會退還該卡片的累積額度）</small>', () => {
             const db = loadDB(); const rec = db.records[monthKey][txId];
@@ -1095,7 +1100,7 @@
             const pct = requiredMiles > 0 ? Math.min(100, (availMiles / requiredMiles) * 100) : 0;
             const statusHtml = isEnough ? `<span class="text-success d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-check-c"/></svg> 可兌換</span>` : `<span class="text-danger">尚缺 ${ (requiredMiles - availMiles).toLocaleString() }</span>`;
             
-            // 【修復核心】回歸與台銀一致的最純淨原生的 <a> 標籤跳轉
+            // 【核心防護 3】回歸純淨原生 a 標籤跳轉，附帶防阻擋屬性
             return `
             <div class="planner-result-card ${isEnough ? 'status-enough' : 'status-short'}">
                 <div class="d-flex justify-content-between align-items-center mb-1">
@@ -1129,7 +1134,7 @@
     }
 
     /* =========================
-       Modal / UI 防呆與安全代理系統
+       UI 防呆與安全代理系統
        ========================= */
     function showModal(id) { document.getElementById(id).classList.add('show'); document.getElementById(id).style.display = 'flex'; }
     function hideModal(id) { document.getElementById(id).classList.remove('show'); setTimeout(()=> { document.getElementById(id).style.display = 'none'; }, 200); }
@@ -1138,7 +1143,6 @@
         btn.onclick = function() { const m = this.closest('.modal'); if(m) { m.classList.remove('show'); setTimeout(()=> { m.style.display = 'none'; }, 200); } }
     });
 
-    // 客製化安全刪除/重置功能
     function showCustomConfirm(msg, callback) {
         document.getElementById('confirm-msg').innerHTML = msg;
         pendingConfirmCallback = callback;
