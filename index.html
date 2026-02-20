@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5 (兌換評估版)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* =========================
+       CSS 樣式表 (v12.5)
+       ========================= */
+    :root {
+      --bg-main: #fffdf9;
+      --bg-card: #ffffff;
+      --primary: #60a5fa;
+      --primary-dark: #2563eb;
+      --text-header: #334155;
+      --text-body: #475569;
+      --text-light: #94a3b8;
+      --shadow-draw: 3px 3px 0px rgba(0,0,0,0.06);
+      --radius-box: 24px;
+      --font-hand: 'Mali', cursive;
+      --font-main: 'Varela Round', sans-serif;
+      /* Morandi Palette */
+      --m-sage: #84a59d; --m-clay: #f5cac3; --m-dusty: #95b8d1; --m-terra: #e5989b; --m-slate: #6d6875; --m-sand: #f2e9e4; --m-stone: #a5a58d;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-body);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      background-image: radial-gradient(#e0f2fe 2px, transparent 2px);
+      background-size: 24px 24px;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: 100px;
+    }
+
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-hand); font-weight: 700; color: var(--text-header); }
+
+    /* Header */
+    .header {
+      background: #ffffff; padding: 15px 20px 25px 20px;
+      border-bottom-left-radius: 36px; border-bottom-right-radius: 36px;
+      position: sticky; top: 0;
+      box-shadow: var(--shadow-draw); margin-bottom: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 90px; border-bottom: 3px dashed #bae6fd;
+      z-index: 100;
+    }
+    .header-icon {
+      width: 40px; height: 40px; background: #eff6ff; border: 2px solid #bfdbfe;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: var(--primary); font-size: 1.1rem; transform: rotate(-5deg); margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .header-title h5 { margin: 0; font-size: 1rem; color: var(--primary-dark); line-height: 1.2; }
+    .header-title small { color: var(--text-light); font-size: 0.75rem; font-family: var(--font-hand); }
+
+    .btn-header {
+      background: #fff; border: 2px solid #e2e8f0; color: var(--text-body);
+      font-weight: 700; font-family: var(--font-hand); font-size: 0.8rem;
+      padding: 6px 12px; box-shadow: 2px 2px 0 #e2e8f0; border-radius: 16px;
+      transition: 0.1s; white-space: nowrap;
+    }
+    .btn-header:active { transform: translateY(2px); box-shadow: 0 0 0; }
+
+    .container-custom { padding: 10px 16px; max-width: 600px; margin: 0 auto; position: relative; z-index: 10; flex: 1; }
+    
+    .card-box { background: var(--bg-card); border-radius: var(--radius-box); padding: 20px; margin-bottom: 16px; border: 2px solid #f1f5f9; box-shadow: var(--shadow-draw); }
+
+    .form-label { font-weight: 700; color: var(--text-header); margin-bottom: 6px; font-size: 0.9rem; font-family: var(--font-hand); }
+    .form-control, .form-select { background-color: #fff !important; border: 2px solid #cbd5e1 !important; color: var(--text-header) !important; padding: 10px 14px; border-radius: 16px; font-size: 1rem; font-weight: 600; height: 48px; box-shadow: inset 2px 2px 4px rgba(0,0,0,0.03); }
+    .form-control:focus, .form-select:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important; }
+    
+    #amount { color: var(--primary) !important; font-size: 1.5rem; letter-spacing: 1px; font-family: var(--font-hand); transition: all 0.3s ease; }
+    
+    .input-negative { color: #ef4444 !important; font-weight: 900 !important; border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+    .status-label-negative { color: #ef4444; font-size: 0.8rem; font-weight: 700; margin-top: 4px; font-family: var(--font-hand); display: none; animation: fadeIn 0.2s ease; }
+
+    .btn-action { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; font-weight: 700; border-radius: 50px; padding: 14px; width: 100%; border: none; font-size: 1.1rem; font-family: var(--font-hand); box-shadow: 3px 3px 0 rgba(59, 130, 246, 0.25); margin-top: 10px; border: 2px solid #bfdbfe; transition: 0.1s; }
+    .btn-action:active { transform: translateY(3px); box-shadow: 0 0 0; }
+
+    .switch-group { background: #f8fafc; padding: 10px 14px; border-radius: 16px; border: 2px solid #e2e8f0; box-shadow: 2px 2px 0 #e2e8f0; display: flex; align-items: center; justify-content: space-between; height: 100%; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+    .form-check-input { width: 2.8em; height: 1.5em; background-color: #cbd5e1; border: 2px solid #cbd5e1; cursor: pointer; pointer-events: none; }
+    .form-check-input:checked { background-color: var(--primary); border-color: var(--primary); }
+
+    #result-area { display: none; animation: popUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes popUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    .result-tag { background: var(--primary); color: white; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; display: inline-block; font-family: var(--font-hand); box-shadow: 2px 2px 0 rgba(0,0,0,0.1); transform: rotate(-1deg); }
+
+    .plan-card { padding: 16px; border-radius: 18px; margin-top: 12px; border: 2px solid #f1f5f9; position: relative; background: #fff; box-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
+    .plan-winner { border-color: var(--primary); background: #f0f9ff; transform: rotate(-0.5deg); }
+    .winner-badge { position: absolute; top: -12px; right: 10px; background: #fde047; color: var(--text-header); font-size: 0.75rem; padding: 4px 12px; border-radius: 14px; font-weight: 700; border: 2px solid #fde047; box-shadow: 2px 2px 0 rgba(0,0,0,0.1); transform: rotate(3deg); font-family: var(--font-hand); }
+    .card-name { font-size: 1.1rem; font-weight: 800; color: var(--text-header); margin: 0; }
+    .card-miles { font-size: 1.3rem; color: #34d399; font-weight: 900; font-family: var(--font-hand); }
+    
+    .btn-card-action { border: 1px solid #e2e8f0; background: #fff; color: #64748b; border-radius: 50px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; font-family: var(--font-hand); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; box-shadow: 1px 1px 0 #e2e8f0; }
+    .btn-card-action.btn-record-win { background: #3b82f6; color: white; border-color: #2563eb; box-shadow: 1px 1px 0 #2563eb; }
+    
+    /* Warehouse Styles */
+    .input-block-card { background: #fff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
+    .input-block-title { font-family: var(--font-hand); font-weight: 700; color: #334155; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+    .asset-item { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .airline-group-card { background: #fdfdfd; border: 2px solid #bfdbfe; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 4px 0 rgba(191, 219, 254, 0.2); overflow: hidden; }
+    .airline-header { background: #eff6ff; padding: 12px 16px; border-bottom: 2px solid #bfdbfe; display: flex; justify-content: space-between; align-items: center; }
+    .airline-title { font-weight: 800; color: var(--primary-dark); font-size: 1.1rem; }
+    .airline-total { font-weight: 800; color: var(--text-header); font-size: 1.2rem; }
+
+    /* Nav Bottom */
+    .nav-bottom { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 2px solid #e2e8f0; border-top-left-radius: 24px; border-top-right-radius: 24px; display: flex; justify-content: space-evenly; padding: 12px 0 25px 0; z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
+    .nav-item { color: var(--text-light); font-size: 0.7rem; font-weight: 700; cursor: pointer; padding: 6px; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: var(--font-hand); border-radius: 16px; flex: 1; text-align:center; }
+    .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
+    .nav-item.active { color: var(--primary); }
+    .nav-item.active i { transform: translateY(-3px); transition: 0.2s; }
+    .nav-badge { position: absolute; top: -5px; right: -8px; background: #ef4444; color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; border: 2px solid #fff; }
+
+    /* Redeem Card Styles */
+    .redeem-card { background: #fff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 12px; position: relative; overflow: hidden; box-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
+    .redeem-airline-name { font-weight: 800; font-size: 1.1rem; color: #334155; display:flex; align-items:center; gap:8px;}
+    .redeem-miles-req { font-family: var(--font-hand); font-weight: 900; color: var(--primary-dark); font-size: 1.2rem; }
+    .redeem-status { font-size: 0.8rem; font-weight: 700; border-radius: 8px; padding: 4px 8px; font-family: var(--font-hand); }
+    .status-ok { background: #dcfce7; color: #166534; }
+    .status-short { background: #fef08a; color: #854d0e; }
+    .status-disabled { background: #f1f5f9; color: #64748b; }
+    .redeem-card.disabled { opacity: 0.6; filter: grayscale(1); }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="d-flex align-items-center">
+      <div class="header-icon"><i class="fa-solid fa-plane-departure"></i></div>
+      <div class="header-title">
+        <h5>TDC 航空累哩工具<br>v12.5</h5>
+        <small class="text-secondary fw-bold">⚙️ 兌換評估版</small>
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn-header" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
+    </div>
+  </div>
+
+  <div class="container-custom">
+    
+    <!-- Page 1: Calculator (簡化版示意，保留原有功能) -->
+    <div id="page-calc" class="page-section">
+      <div class="card-box">
+        <h5 class="text-primary fw-bold mb-3"><i class="fa-solid fa-calculator me-2"></i>消費回饋試算</h5>
+        <div class="mb-3">
+          <label class="form-label" id="amount-label">消費金額 (TWD)</label>
+          <input type="number" id="amount" class="form-control" placeholder="0" inputmode="decimal">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">消費類別 / 備註</label>
+          <select id="category" class="form-select mb-2">
+            <option value="general">🛍️ 一般消費</option>
+            <option value="dining">🍽️ 餐廳/外送</option>
+            <option value="flight_ci">🌸 華航官網</option>
+          </select>
+        </div>
+        <button onclick="calculate()" class="btn-action">開始計算 <i class="fa-solid fa-calculator ms-2"></i></button>
+      </div>
+      <div id="result-area">
+        <div id="cards-container"></div>
+      </div>
+    </div>
+
+    <!-- Page 2: Transaction List -->
+    <div id="page-list" class="page-section" style="display:none;">
+        <div class="text-center py-5 text-muted">待結算明細區</div>
+    </div>
+
+    <!-- Page 3: Status -->
+    <div id="page-status" class="page-section" style="display:none;">
+        <div class="text-center py-5 text-muted">狀態與總帳監控區</div>
+    </div>
+
+    <!-- Page 4: Warehouse (倉庫) -->
+    <div id="page-warehouse" class="page-section" style="display:none;">
+        <div class="input-block-card">
+            <div class="input-block-title text-primary"><i class="fa-solid fa-plane"></i> 存入航空哩程 (原生)</div>
+            <div class="mb-3"><label class="form-label small mb-1 fw-bold">航司名稱</label><input id="native-airline-name" class="form-control" placeholder="如: 華航, 長榮, 國泰, ANA"></div>
+            <div class="mb-3"><label class="form-label small mb-1 fw-bold">目前持有哩程</label><input id="native-current" type="number" class="form-control" placeholder="0"></div>
+            <button onclick="addNativeAsset()" class="btn btn-sm btn-outline-primary w-100 rounded-pill fw-bold">存入航空帳戶</button>
+        </div>
+        
+        <div class="input-block-card">
+            <div class="input-block-title text-warning" style="color:#d97706;"><i class="fa-solid fa-right-left"></i> 存入轉點積分 (飯店/銀行)</div>
+            <div class="row g-2 mb-2">
+                <div class="col-7"><label class="form-label small mb-1 fw-bold">積分來源</label><input id="trans-source-name" class="form-control" placeholder="如: 萬豪, 小樹點"></div>
+                <div class="col-5"><label class="form-label small mb-1 fw-bold">持有積分</label><input id="trans-current" type="number" class="form-control" placeholder="0"></div>
+            </div>
+            <div class="mb-2"><label class="form-label small mb-1 fw-bold text-primary">欲兌換之目標航司</label><input id="trans-target-airline" class="form-control" placeholder="如: 長榮, 國泰"></div>
+            <div class="bg-light p-2 rounded border mb-2">
+                <label class="small text-muted fw-bold mb-1">兌換公式 (例如: 360點 = 1000哩)</label>
+                <div class="input-group input-group-sm mb-2"><span class="input-group-text">每</span><input id="trans-unit-points" type="number" class="form-control" placeholder="360" min="0"><span class="input-group-text">點 = </span><input id="trans-unit-miles" type="number" class="form-control" placeholder="1000" min="0"><span class="input-group-text">哩</span></div>
+            </div>
+            <button onclick="addTransferAsset()" class="btn btn-sm btn-outline-warning w-100 rounded-pill fw-bold" style="color:#b45309; border-color:#d97706;">存入轉點資產</button>
+        </div>
+        <div id="warehouse-list"></div>
+    </div>
+
+    <!-- ★ Page 5: Redeem (全新兌換評估分頁) ★ -->
+    <div id="page-redeem" class="page-section" style="display:none;">
+        <div class="card-box border-primary shadow-sm" style="border-width: 2px;">
+            <h5 class="text-primary mb-3"><i class="fa-solid fa-plane-up me-2"></i>機票兌換評估</h5>
+            
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <label class="form-label small">行程類型</label>
+                    <select id="redeem-trip-type" class="form-select" onchange="checkANARestriction()">
+                        <option value="rt">🔄 來回</option>
+                        <option value="ow">➡️ 單程</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label small">兌換艙等</label>
+                    <select id="redeem-cabin" class="form-select">
+                        <option value="eco">經濟艙</option>
+                        <option value="pe">豪華經濟艙</option>
+                        <option value="biz">商務艙</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small">目標區域 (以台灣出發為準)</label>
+                <select id="redeem-zone" class="form-select">
+                    <option value="NortheastAsia">東北亞 (日本/韓國)</option>
+                    <option value="SoutheastAsia">東南亞</option>
+                    <option value="Europe">歐洲</option>
+                    <option value="Oceania">大洋洲 (澳洲/紐西蘭)</option>
+                    <option value="NorthAmerica_West">北美洲 - 西岸</option>
+                    <option value="NorthAmerica_East">北美洲 - 東岸/中部</option>
+                </select>
+            </div>
+            
+            <div id="ana-warning" class="text-danger small fw-bold mb-3" style="display:none;">
+                ⚠️ 提示：ANA (全日空) 規則僅支援兌換「來回機票」。
+            </div>
+
+            <button onclick="calculateRedeem()" class="btn-action w-100" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); box-shadow: 3px 3px 0 rgba(109, 40, 217, 0.25); border-color:#c4b5fd;">
+                查詢庫存與標準 <i class="fa-solid fa-magnifying-glass ms-1"></i>
+            </button>
+        </div>
+        
+        <!-- 兌換比對結果將顯示在這裡 -->
+        <div id="redeem-results" class="mt-3"></div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav (新增第5顆按鈕：兌換) -->
+  <div class="nav-bottom">
+    <div class="nav-item active" onclick="switchPage('calc', this)"><i class="fa-solid fa-calculator"></i>試算</div>
+    <div class="nav-item" onclick="switchPage('list', this)"><i class="fa-solid fa-clipboard-list"></i>明細</div>
+    <div class="nav-item" onclick="switchPage('status', this)"><i class="fa-solid fa-chart-simple"></i>監控</div>
+    <div class="nav-item" onclick="switchPage('warehouse', this)"><i class="fa-solid fa-warehouse"></i>倉庫</div>
+    <div class="nav-item" onclick="switchPage('redeem', this)"><i class="fa-solid fa-ticket-airline"></i>兌換</div>
+  </div>
+
+  <!-- Alerts Modal -->
+  <div class="modal fade" id="customAlertModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-body text-center py-4 px-3">
+          <i class="fa-solid fa-circle-exclamation text-warning mb-3" style="font-size: 3rem;"></i>
+          <p class="mb-0 fw-bold text-secondary" id="alert-msg" style="font-size: 1.05rem; line-height: 1.5;"></p>
+        </div>
+        <div class="modal-footer border-0 pt-0 justify-content-center pb-4">
+          <button type="button" class="btn btn-primary rounded-pill px-5 fw-bold font-hand" data-bs-dismiss="modal">我知道了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* =========================
+       系統與資料庫邏輯 (簡化版示意)
+       ========================= */
+    const DB_KEY = 'MILES_APP_V12_6_DATA'; 
+    
+    function loadDB() {
+        const raw = localStorage.getItem(DB_KEY);
+        if(!raw) return { warehouse:[] };
+        const db = JSON.parse(raw);
+        if(!db.warehouse) db.warehouse =[];
+        return db;
+    }
+    function saveDB(data) { localStorage.setItem(DB_KEY, JSON.stringify(data)); }
+    function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; new bootstrap.Modal(document.getElementById('customAlertModal')).show(); }
+
+    function switchPage(p, btn) {
+        document.querySelectorAll('.page-section').forEach(e => e.style.display='none');
+        document.getElementById(`page-${p}`).style.display='block';
+        document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+        btn.classList.add('active');
+        if(p==='warehouse') renderWarehouse();
+        if(p==='redeem') document.getElementById('redeem-results').innerHTML = ''; // 清空上次搜尋
+        window.scrollTo(0,0);
+    }
+
+    /* === 倉庫功能 === */
+    function addNativeAsset() {
+        const name = document.getElementById('native-airline-name').value; 
+        const val = parseFloat(document.getElementById('native-current').value);
+        if(!name || isNaN(val)) return showAlert('請輸入完整資訊');
+        const db = loadDB(); 
+        db.warehouse.push({ type: 'airline', targetAirline: name, name: name, current: val, unitPoints:1, unitMiles:1 });
+        saveDB(db); renderWarehouse(); 
+        document.getElementById('native-airline-name').value=''; 
+        document.getElementById('native-current').value='';
+    }
+    
+    function addTransferAsset() {
+        const src = document.getElementById('trans-source-name').value; 
+        const val = parseFloat(document.getElementById('trans-current').value); 
+        const target = document.getElementById('trans-target-airline').value;
+        const uP = parseFloat(document.getElementById('trans-unit-points').value); 
+        const uM = parseFloat(document.getElementById('trans-unit-miles').value);
+        if(!src || !target || isNaN(val) || isNaN(uP) || isNaN(uM)) return showAlert('請輸入完整資訊');
+        const db = loadDB(); 
+        db.warehouse.push({ type: 'transfer', targetAirline: target, name: src, current: val, unitPoints: uP, unitMiles: uM });
+        saveDB(db); renderWarehouse(); 
+        document.getElementById('trans-source-name').value=''; 
+        document.getElementById('trans-current').value='';
+    }
+
+    function renderWarehouse() {
+        const db = loadDB(); const list = document.getElementById('warehouse-list'); list.innerHTML = '';
+        if(db.warehouse.length === 0) { list.innerHTML = '<div class="text-muted text-center py-4">倉庫是空的</div>'; return; }
+        
+        db.warehouse.forEach((item, idx) => {
+            let equiv = item.type === 'airline' ? item.current : Math.floor(item.current * (item.unitMiles/item.unitPoints));
+            list.innerHTML += `
+            <div class="asset-item mb-2 shadow-sm">
+                <div><div class="fw-bold text-dark">${item.name} <small class="text-muted">-> ${item.targetAirline}</small></div>
+                <div class="text-muted small">餘額: ${item.current.toLocaleString()} | 估值: ${equiv.toLocaleString()} 哩</div></div>
+                <button class="btn btn-sm btn-outline-danger" onclick="delAsset(${idx})">刪除</button>
+            </div>`;
+        });
+    }
+
+    function delAsset(idx) { 
+        if(confirm('確定刪除？')){ const db = loadDB(); db.warehouse.splice(idx, 1); saveDB(db); renderWarehouse(); } 
+    }
+
+    /* =========================================
+       ★★★ 核心：機票靜態兌換標準 (單程標準) ★★★
+       ========================================= */
+    const AWARD_CHART = {
+        "NortheastAsia": {
+            CI: { eco: 17500, pe: null, biz: 30000 },
+            BR: { eco: 17500, pe: null, biz: 25000 },
+            CX: { eco: 12500, pe: 23000, biz: 28000 }, // 國泰TPE-NRT (類別2)
+            ANA: { eco: 20000, pe: null, biz: 43000 }  // ANA為星盟夥伴標準 (來回價)
+        },
+        "SoutheastAsia": {
+            CI: { eco: 17500, pe: null, biz: 30000 },
+            BR: { eco: 17500, pe: null, biz: 25000 },
+            CX: { eco: 12500, pe: 23000, biz: 28000 },
+            ANA: { eco: 35000, pe: null, biz: 60000 }  // ANA為星盟夥伴標準 (來回價)
+        },
+        "Europe": {
+            CI: { eco: 50000, pe: 65000, biz: 75000 },
+            BR: { eco: 50000, pe: 65000, biz: 75000 },
+            CX: { eco: 38000, pe: 50000, biz: 84000 }, // 國泰長途 (類別4)
+            ANA: { eco: 55000, pe: null, biz: 93000 }  // ANA為星盟夥伴標準 (來回價)
+        },
+        "Oceania": {
+            CI: { eco: 30000, pe: 40000, biz: 50000 },
+            BR: { eco: 30000, pe: 40000, biz: 57500 },
+            CX: { eco: 38000, pe: 50000, biz: 84000 },
+            ANA: { eco: 45000, pe: null, biz: 75000 }  // ANA為星盟夥伴標準 (來回價)
+        },
+        "NorthAmerica_West": {
+            CI: { eco: 50000, pe: 65000, biz: 80000 },
+            BR: { eco: 50000, pe: 65000, biz: 75000 },
+            CX: { eco: 38000, pe: 50000, biz: 84000 }, // 洛杉磯距離為長途 (類別4)
+            ANA: { eco: 55000, pe: null, biz: 90000 }  // ANA為星盟夥伴標準 (來回價)
+        },
+        "NorthAmerica_East": {
+            CI: { eco: 50000, pe: 65000, biz: 80000 },
+            BR: { eco: 50000, pe: 65000, biz: 75000 },
+            CX: { eco: 50000, pe: 75000, biz: 110000 },// 紐約距離為超長途 (類別5)
+            ANA: { eco: 55000, pe: null, biz: 90000 }  // ANA為星盟夥伴標準 (來回價)
+        }
+    };
+
+    const AIRLINES_META = {
+        CI: { name: '中華航空 (CI)', color: '#ec4899', icon: '🌸' },
+        BR: { name: '長榮航空 (BR)', color: '#10b981', icon: '✈️' },
+        CX: { name: '國泰航空 (CX)', color: '#14b8a6', icon: '🌲' },
+        ANA: { name: '全日空 (ANA)', color: '#3b82f6', icon: '💙' }
+    };
+
+    function checkANARestriction() {
+        const type = document.getElementById('redeem-trip-type').value;
+        const warning = document.getElementById('ana-warning');
+        if(type === 'ow') { warning.style.display = 'block'; } 
+        else { warning.style.display = 'none'; }
+    }
+
+    // 模糊比對倉庫資料計算該航司擁有多少哩程
+    function getInventory(db) {
+        let inv = { CI: 0, BR: 0, CX: 0, ANA: 0 };
+        db.warehouse.forEach(asset => {
+            const ratio = asset.unitMiles / asset.unitPoints;
+            const equiv = Math.floor(asset.current * ratio);
+            const searchKey = (asset.targetAirline + asset.name).toUpperCase();
+            
+            if (searchKey.includes('華航') || searchKey.includes('CI')) inv.CI += equiv;
+            if (searchKey.includes('長榮') || searchKey.includes('BR')) inv.BR += equiv;
+            if (searchKey.includes('國泰') || searchKey.includes('萬里通') || searchKey.includes('CX') || searchKey.includes('ASIA') || searchKey.includes('AM')) inv.CX += equiv;
+            if (searchKey.includes('全日空') || searchKey.includes('ANA') || searchKey.includes('NH')) inv.ANA += equiv;
+        });
+        return inv;
+    }
+
+    function calculateRedeem() {
+        const type = document.getElementById('redeem-trip-type').value;
+        const cabin = document.getElementById('redeem-cabin').value;
+        const zone = document.getElementById('redeem-zone').value;
+        
+        const db = loadDB();
+        const userInventory = getInventory(db);
+        const chartData = AWARD_CHART;
+        const container = document.getElementById('redeem-results');
+        container.innerHTML = ''; // 清空結果
+
+        // 檢查四大航司.forEach(al => {
+            let reqMiles = chartData;
+            let html = '';
+            let isDisabled = false;
+            let statusBadge = '';
+            
+            // 邏輯 1: 該航線是否有此艙等
+            if (reqMiles === null) {
+                isDisabled = true;
+                statusBadge = `<span class="redeem-status status-disabled">無此艙等標準</span>`;
+                reqMiles = 0;
+            } else {
+                // 邏輯 2: 單程與來回計算
+                if (al === 'ANA') {
+                    if (type === 'ow') {
+                        isDisabled = true;
+                        statusBadge = `<span class="redeem-status status-disabled">ANA 不支援開單程</span>`;
+                        reqMiles = 0;
+                    } else {
+                        // ANA 的 JSON 預設就是來回標準
+                        reqMiles = reqMiles; 
+                    }
+                } else {
+                    // CI, BR, CX 的 JSON 預設為單程，若是來回則 * 2
+                    if (type === 'rt') reqMiles = reqMiles * 2;
+                }
+            }
+
+            // 邏輯 3: 比對庫存並繪製長條圖
+            if (!isDisabled) {
+                const myMiles = userInventory;
+                const isEnough = myMiles >= reqMiles;
+                const pct = Math.min(100, (myMiles / reqMiles) * 100).toFixed(1);
+                const barColor = isEnough ? 'bg-success' : 'bg-warning';
+                
+                if (isEnough) {
+                    statusBadge = `<span class="redeem-status status-ok"><i class="fa-solid fa-check"></i> 哩程足夠可換！</span>`;
+                } else {
+                    statusBadge = `<span class="redeem-status status-short">還差 ${(reqMiles - myMiles).toLocaleString()} 哩</span>`;
+                }
+
+                html = `
+                <div class="redeem-card">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="redeem-airline-name" style="color:${AIRLINES_META.color}">${AIRLINES_META.icon} ${AIRLINES_META.name}</div>
+                        ${statusBadge}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end mb-1">
+                        <div class="small text-muted fw-bold">你的庫存: ${myMiles.toLocaleString()}</div>
+                        <div class="redeem-miles-req">${reqMiles.toLocaleString()} <small style="font-size:0.5em;color:#64748b;">哩</small></div>
+                    </div>
+                    <!-- 長條圖 (Progress Bar) -->
+                    <div class="progress" style="height: 10px; border-radius: 10px; background-color: #f1f5f9;">
+                        <div class="progress-bar ${barColor} progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${pct}%"></div>
+                    </div>
+                </div>`;
+            } else {
+                // 若被 Disable (無此艙等或 ANA單程)
+                html = `
+                <div class="redeem-card disabled">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="redeem-airline-name" style="color:#94a3b8;">${AIRLINES_META.icon} ${AIRLINES_META.name}</div>
+                        ${statusBadge}
+                    </div>
+                </div>`;
+            }
+            container.innerHTML += html;
+        });
+
+        // 動畫顯示
+        container.style.display = 'block';
+    }
+
+    // 啟動初始化
+    window.onload = function() { 
+        renderWarehouse(); 
+    };
+  </script>
+</body>
+</html>
