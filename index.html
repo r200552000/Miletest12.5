@@ -46,10 +46,10 @@
     .ms-1 { margin-left: 0.25rem !important; } .ms-2 { margin-left: 0.5rem !important; }
     .p-0 { padding: 0 !important; } .p-1 { padding: 0.25rem !important; } .p-2 { padding: 0.5rem !important; } .p-3 { padding: 1rem !important; } .p-4 { padding: 1.5rem !important; }
     .py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; } .py-3 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
-    .px-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; } .px-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; } .px-4 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; } .px-5 { padding-left: 3rem !important; padding-right: 3rem !important; }
+    .px-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; } .px-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; } .px-3 { padding-left: 1rem !important; padding-right: 1rem !important; } .px-4 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; } .px-5 { padding-left: 3rem !important; padding-right: 3rem !important; }
 
     /* =========================
-       內聯 SVG 圖示樣式 (高質感替代方案)
+       內聯 SVG 圖示樣式
        ========================= */
     .lucide { 
       width: 1.2em; height: 1.2em; 
@@ -69,7 +69,6 @@
       --shadow-draw: 3px 3px 0px rgba(0,0,0,0.06);
       --radius-box: 24px;
       --font-hand: 'Mali', cursive; --font-main: 'Varela Round', sans-serif;
-      /* Morandi Palette */
       --m-sage: #84a59d; --m-clay: #f5cac3; --m-dusty: #95b8d1; --m-terra: #e5989b; --m-slate: #6d6875; --m-sand: #f2e9e4; --m-stone: #a5a58d;
     }
 
@@ -206,21 +205,25 @@
     .badge-direct { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
     .badge-transit { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
     
-    .link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; padding: 4px 10px; border-radius: 50px; text-decoration: none; font-weight: bold; background: white; border: 1px solid #cbd5e1; color: #475569; transition: 0.2s; }
+    /* 立即兌換按鈕 */
+    .link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; padding: 6px 12px; border-radius: 50px; font-weight: bold; background: white; border: 1px solid #cbd5e1; color: #475569; transition: 0.2s; cursor: pointer; font-family: var(--font-hand); }
     .status-enough .link-btn { border-color: #10b981; color: #059669; }
     .status-short .link-btn { border-color: #f43f5e; color: #e11d48; }
+    .link-btn:hover { background: #f8fafc; }
 
-    /* Modal 基本修復 (強制防呆鎖專用) */
+    /* Modal 終極防呆修復 */
     .modal-dialog { background: #fff; margin: 1.75rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; box-sizing: border-box; }
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; overflow-y: auto; align-items: center; justify-content: center; display: none; }
     .modal.show { display: flex !important; }
     .btn-close { position: absolute; right: 15px; top: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.5; padding: 0; }
     .custom-card-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
+    
     .btn-outline-danger { color: #ef4444; border: 1px solid #ef4444; background: transparent; padding: 4px 8px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; }
     .btn-outline-primary { color: var(--primary-dark); border: 2px solid var(--primary); background: transparent; padding: 6px 12px; border-radius: 50px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .btn-outline-secondary { color: #64748b; border: 2px solid #cbd5e1; background: #f8fafc; padding: 6px 12px; font-weight: bold; cursor: pointer; border-radius: 16px 0 0 16px; }
-    .btn-light { background: #f1f5f9; border: none; color: #475569; padding: 10px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .btn-primary { background: var(--primary-dark); border: none; color: #fff; padding: 10px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-light { background: #f1f5f9; border: none; color: #475569; padding: 10px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-hand); }
+    .btn-primary { background: var(--primary-dark); border: none; color: #fff; padding: 10px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-hand); }
+    
     .progress { display: flex; height: 6px; overflow: hidden; background-color: #e2e8f0; border-radius: 0.25rem; width: 100%; }
     .progress-bar { display: flex; flex-direction: column; justify-content: center; overflow: hidden; color: #fff; text-align: center; white-space: nowrap; background-color: #10b981; transition: width .6s ease; }
     .bg-warning { background-color: #f59e0b !important; } .bg-success { background-color: #10b981 !important; } .bg-danger { background-color: #ef4444 !important; }
@@ -231,7 +234,7 @@
 
 <body>
   <!-- =========================
-       內嵌 SVG 圖標庫 (絕對不會被預覽器阻擋)
+       內嵌 SVG 圖標庫
        ========================= -->
   <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" style="display: none;">
     <symbol id="icon-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-2 2 4 4 2-2-1-3 3-3 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></symbol>
@@ -332,9 +335,10 @@
                 <input type="number" id="fx-rate-input" class="form-control" placeholder="輸入匯率" inputmode="decimal" min="0" step="0.0001">
                 <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">TWD</span>
             </div>
-            <a href="[https://rate.bot.com.tw/xrt?Lang=zh-TW](https://rate.bot.com.tw/xrt?Lang=zh-TW)" target="_blank" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem;">
+            <!-- 使用 custom 視窗取代外部跳轉，確保預覽器安全 -->
+            <button onclick="openExternalLink('臺灣銀行', '[https://rate.bot.com.tw/xrt?Lang=zh-TW](https://rate.bot.com.tw/xrt?Lang=zh-TW)')" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem; background:white;">
                 <svg class="lucide me-1"><use href="#icon-bank"/></svg> 查詢臺銀牌告匯率
-            </a>
+            </button>
         </div>
 
         <div class="mb-3 mt-3">
@@ -530,7 +534,47 @@
     <button class="nav-item" onclick="switchPage('warehouse', this)"><svg class="lucide"><use href="#icon-warehouse"/></svg>倉庫</button>
   </div>
 
-  <!-- Modal 區塊 (強制防呆鎖 style="display: none;") -->
+  <!-- =========================
+       客製化安全防呆 Modal 系統 (拒絕環境封鎖)
+       ========================= -->
+       
+  <!-- 1. 客製化刪除確認視窗 (取代 window.confirm) -->
+  <div class="modal fade" id="customConfirmModal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
+        <div class="text-center d-flex flex-column align-items-center">
+          <svg class="lucide text-warning mb-3" style="width:3rem;height:3rem;"><use href="#icon-warn"/></svg>
+          <p class="mb-4 fw-bold text-secondary" id="confirm-msg" style="font-size: 1.05rem; line-height: 1.5;"></p>
+          <div class="d-flex justify-content-center gap-2 w-100">
+            <button type="button" class="btn-light flex-grow-1" onclick="hideModal('customConfirmModal')">取消</button>
+            <button type="button" class="btn-primary flex-grow-1" id="confirm-btn-yes" style="background:#ef4444;">確定刪除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 智慧外部連結備案視窗 (繞過 target="_blank" 與 404) -->
+  <div class="modal fade" id="linkModal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 d-flex align-items-center"><svg class="lucide me-2 text-primary"><use href="#icon-external"/></svg><span id="link-modal-title">前往官方網站</span></h5>
+            <button type="button" class="btn-close" onclick="hideModal('linkModal')"><svg class="lucide"><use href="#icon-x"/></svg></button>
+        </div>
+        <div class="modal-body p-0">
+          <p class="small text-muted mb-3">若按鈕無反應或被環境阻擋，請點擊「複製」將網址貼到 Safari 或 Chrome 瀏覽器中開啟。</p>
+          <div class="input-group mb-3">
+            <input type="text" id="external-link-url" class="form-control text-secondary" readonly style="background:#f1f5f9; font-size:0.75rem;">
+            <button class="btn-outline-primary" style="border-radius: 0 16px 16px 0; padding: 6px 16px;" onclick="copyExternalLink()">複製</button>
+          </div>
+          <button onclick="tryOpenLink()" class="btn-primary w-100 font-hand">嘗試直接跳轉開啟</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 其他常規 Modal -->
   <div class="modal fade" id="correctionModal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
@@ -552,7 +596,7 @@
       <div class="modal-content" style="background:transparent; border:none; box-shadow:none; padding:0;">
         <div class="modal-body p-0" id="guide-content"></div>
         <div class="text-center mt-3">
-            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; display:flex; align-items:center; justify-content:center; margin:0 auto;"><svg class="lucide"><use href="#icon-x"/></svg></button>
+            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; margin:0 auto;"><svg class="lucide"><use href="#icon-x"/></svg></button>
         </div>
       </div>
     </div>
@@ -607,7 +651,7 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.5 終極完美版
+       TDC Miles Tool v12.5 核心邏輯
        ========================= */
 
     const DB_KEY = 'MILES_APP_V12_6_DATA'; 
@@ -615,6 +659,10 @@
     let correctionTarget = { id: null, name: null };
     let editAssetTargetIdx = null;
     let plannerSelectedAssets = new Set();
+    
+    // 客製化安全防呆系統變數
+    let pendingConfirmCallback = null;
+    let currentExternalLink = "";
     
     const BUILTIN_DEFS = [
       { id: 'hsbc_live', name: '匯豐 Live+', default: true },
@@ -647,8 +695,7 @@
         'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
     };
 
-    // --- AWARD PLANNER 2026 精算資料庫 (v12.5 終極版) ---
-    // 數值設定為 -1 代表該航線無此常規艙等
+    // --- AWARD PLANNER 2026 終極精算資料庫 ---
     const AWARD_CHARTS = {
         'JP_KR': { 
             name: '東北亞 (日/韓)', 
@@ -656,7 +703,7 @@
             BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 35000, C: 50000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html](https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html)', Y: 20000, C: 56000, F: 86000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:17000, R:20000, H:23000 }, C: { L:35000, R:40000, H:43000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/](https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/)', Y: 20000, C: 43000, F: -1 } 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 20000, C: 43000, F: -1 } 
         },
         'SE_ASIA': { 
             name: '東南亞', 
@@ -664,7 +711,7 @@
             BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 35000, C: 50000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html](https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html)', Y: 20000, C: 56000, F: 86000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:30000, R:35000, H:38000 }, C: { L:55000, R:60000, H:63000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/](https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/)', Y: 35000, C: 60000, F: -1 } 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 35000, C: 60000, F: -1 } 
         },
         'NA_W': { 
             name: '北美洲 - 西岸 (LAX/SFO)', 
@@ -672,7 +719,7 @@
             BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html](https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html)', Y: 76000, C: 168000, F: 250000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/](https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/)', Y: 60000, C: 95000, F: 135000 } 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 60000, C: 95000, F: 135000 } 
         },
         'NA_E': { 
             name: '北美洲 - 東岸 (JFK)', 
@@ -680,7 +727,7 @@
             BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html](https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html)', Y: 100000, C: 220000, F: 330000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/](https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/)', Y: 60000, C: 95000, F: 135000 } 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 60000, C: 95000, F: 135000 } 
         },
         'EU': { 
             name: '歐洲', 
@@ -688,7 +735,7 @@
             BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', link: '[https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/](https://www.evaair.com/zh-tw/infinity-mileagelands/mileage-award-program/mileage-redemption/award-ticket/eva-uni-air/)', Y: 100000, C: 150000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', link: '[https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html](https://www.cathaypacific.com/cx/zh_HK/book-a-trip/redeem-flights/redeem-flight-awards.html)', Y: 76000, C: 168000, F: 250000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: { L:55000, R:60000, H:65000 }, C: { L:90000, R:95000, H:100000 }, F: { L:165000, R:165000, H:165000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/](https://www.ana.co.jp/zh/tw/amc/partner-flight-awards/)', Y: 65000, C: 115000, F: 165000 } 
+            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', link: '[https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/](https://www.ana.co.jp/zh/tw/amc/international-flight-awards/2025-2026/)', Y: 65000, C: 115000, F: 165000 } 
         }
     };
 
@@ -873,10 +920,17 @@
         }
     }
 
+    // --- 客製化安全刪除邏輯 (拒絕 window.confirm 封鎖) ---
     function delTx(monthKey, txId) {
-        showConfirm('確定要刪除這筆紀錄嗎？\n(同時會退還累積額度)', () => {
+        showCustomConfirm('確定要刪除這筆紀錄嗎？<br><small class="text-muted">（同時會退還該卡片的累積額度）</small>', () => {
             const db = loadDB(); const rec = db.records[monthKey][txId];
-            if(rec) { const limitKey = getLimitKey(db, rec.id, new Date()); if(db.limits[limitKey]) { db.limits[limitKey].spend -= rec.spend; } delete db.records[monthKey][txId]; saveDB(db); updateUI(); }
+            if(rec) { 
+                const limitKey = getLimitKey(db, rec.id, new Date()); 
+                if(db.limits[limitKey]) { db.limits[limitKey].spend -= rec.spend; } 
+                delete db.records[monthKey][txId]; 
+                saveDB(db); 
+                updateUI(); 
+            }
         });
     }
 
@@ -962,12 +1016,17 @@
         const db = loadDB(); db.warehouse.push({ type: 'transfer', targetAirline: target, name: src, current: val, unitPoints: uP, unitMiles: uM }); saveDB(db); renderWarehouse(); document.getElementById('trans-source-name').value=''; document.getElementById('trans-current').value='';
     }
 
-    function delAsset(idx) { showConfirm('確定要刪除這項資產嗎？', () => { const db = loadDB(); db.warehouse.splice(idx, 1); plannerSelectedAssets.clear(); saveDB(db); renderWarehouse(); }); }
+    function delAsset(idx) { 
+        showCustomConfirm('確定要刪除這項資產嗎？', () => { 
+            const db = loadDB(); db.warehouse.splice(idx, 1); plannerSelectedAssets.clear(); saveDB(db); renderWarehouse(); 
+        }); 
+    }
+    
     function openEditAsset(idx) { editAssetTargetIdx = idx; const db = loadDB(); const asset = db.warehouse[idx]; document.getElementById('edit-asset-name').innerText = asset.name; document.getElementById('edit-asset-val').value = asset.current; showModal('editAssetModal'); }
     function saveAssetEdit() { const val = parseFloat(document.getElementById('edit-asset-val').value); if(isNaN(val)) return showAlert('請輸入有效數值'); const db = loadDB(); db.warehouse[editAssetTargetIdx].current = val; saveDB(db); renderWarehouse(); hideModal('editAssetModal'); }
 
     function batchImport() {
-        showConfirm('確定將明細全部存入倉庫？', () => {
+        showCustomConfirm('確定將明細全部存入倉庫？', () => {
             const db = loadDB(); const now = new Date(); const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             const data = db.records[monthKey]; if(!data) return;
             for(let k in data) {
@@ -979,7 +1038,7 @@
     }
     
     function clearCurrentStats() { 
-        showConfirm('確定要重置本期所有數據嗎？\n(這會將本月相關的額度全部退還)', () => { 
+        showCustomConfirm('確定要重置本期所有數據嗎？<br><small class="text-muted">（這會將本月相關的額度全部退還）</small>', () => { 
             const db = loadDB(); const now = new Date(); const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             if(db.records[monthKey]) { for(let id in db.records[monthKey]) { const rec = db.records[monthKey][id]; const limitKey = getLimitKey(db, rec.id, now); if(db.limits[limitKey]) { db.limits[limitKey].spend -= rec.spend; } } db.records[monthKey] = {}; saveDB(db); updateUI(); }
         }); 
@@ -1034,7 +1093,6 @@
         const destKey = document.getElementById('planner-dest').value; const classKey = document.getElementById('planner-class').value; const anaSeason = document.getElementById('planner-ana-season').value;
         const chartData = AWARD_CHARTS[destKey]; if(!chartData) return;
         
-        // ANA 智能防呆提示
         const anaHint = document.getElementById('planner-ana-hint');
         if(classKey === 'F') { anaHint.innerHTML = "ℹ️ 提示：頭等艙皆為全年固定標準，無淡旺季之分。"; anaHint.style.color = "#d97706"; }
         else { anaHint.innerHTML = "* 提示：星盟夥伴為全年固定標準，無淡旺季之分。"; anaHint.style.color = "#94a3b8"; }
@@ -1044,7 +1102,6 @@
         const con = document.getElementById('planner-results-container'); con.innerHTML = '';
 
         const createResultCard = (airlineKey, data, requiredMiles, availMiles) => {
-            // 防呆處理：無此艙等
             if(requiredMiles === -1) {
                 return `
                 <div class="planner-result-card" style="background:#f8fafc; border-color:#e2e8f0; opacity:0.8;">
@@ -1059,6 +1116,7 @@
             const pct = requiredMiles > 0 ? Math.min(100, (availMiles / requiredMiles) * 100) : 0;
             const statusHtml = isEnough ? `<span class="text-success d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-check-c"/></svg> 可兌換</span>` : `<span class="text-danger">尚缺 ${ (requiredMiles - availMiles).toLocaleString() }</span>`;
             
+            // 將原本的 <a href> 改成觸發自訂安全跳轉 Modal
             return `
             <div class="planner-result-card ${isEnough ? 'status-enough' : 'status-short'}">
                 <div class="d-flex justify-content-between align-items-center mb-1">
@@ -1070,7 +1128,9 @@
                         <div>標準: ${requiredMiles.toLocaleString()}</div>
                         <div>已選: ${availMiles.toLocaleString()}</div>
                     </div>
-                    <a href="${data.link}" target="_blank" class="link-btn"><svg class="lucide" style="font-size:0.9em;"><use href="#icon-external"/></svg> 立即兌換</a>
+                    <button onclick="openExternalLink('${data.name}', '${data.link}')" class="link-btn">
+                        <svg class="lucide" style="font-size:0.9em;"><use href="#icon-external"/></svg> 立即兌換
+                    </button>
                 </div>
                 <div class="progress mt-2"><div class="progress-bar ${isEnough ? 'bg-success' : 'bg-danger'}" style="width: ${pct}%"></div></div>
             </div>`;
@@ -1080,7 +1140,6 @@
         con.innerHTML += createResultCard('BR', chartData.BR, chartData.BR[classKey], available.BR);
         con.innerHTML += createResultCard('CX', chartData.CX, chartData.CX[classKey], available.CX);
         
-        // 針對 ANA 需額外判斷淡旺季與頭等艙防呆
         const anaSelfReq = classKey === 'F' ? (chartData.ANA.F[anaSeason] || chartData.ANA.F.R) : chartData.ANA[classKey][anaSeason];
         let anaSelfName = chartData.ANA.name;
         if(classKey !== 'F') anaSelfName += ` <span class="route-badge badge-transit" style="margin-left:4px;">${anaSeason === 'L' ? '淡季' : anaSeason === 'H' ? '旺季' : '一般'}</span>`;
@@ -1090,7 +1149,9 @@
         con.innerHTML += createResultCard('ANA_STAR', chartData.ANA_STAR, chartData.ANA_STAR[classKey], available.ANA);
     }
 
-    /* Modal / UI Handlers Safe Polyfill */
+    /* =========================
+       Modal / UI 防呆與安全代理系統
+       ========================= */
     function showModal(id) { document.getElementById(id).classList.add('show'); document.getElementById(id).style.display = 'flex'; }
     function hideModal(id) { document.getElementById(id).classList.remove('show'); setTimeout(()=> { document.getElementById(id).style.display = 'none'; }, 200); }
     
@@ -1098,10 +1159,61 @@
         btn.onclick = function() { const m = this.closest('.modal'); if(m) { m.classList.remove('show'); setTimeout(()=> { m.style.display = 'none'; }, 200); } }
     });
 
+    // 1. 客製化安全刪除/重置功能
+    function showCustomConfirm(msg, callback) {
+        document.getElementById('confirm-msg').innerHTML = msg;
+        pendingConfirmCallback = callback;
+        showModal('customConfirmModal');
+    }
+    document.getElementById('confirm-btn-yes').onclick = function() {
+        hideModal('customConfirmModal');
+        if(pendingConfirmCallback) pendingConfirmCallback();
+    };
+
+    // 2. 智慧外部連結備案系統 (繞過 target="_blank" 封鎖)
+    function openExternalLink(airlineName, url) {
+        currentExternalLink = url;
+        // 為了避免標籤內有 HTML，單純提取文字名稱
+        const pureName = airlineName.replace(/<[^>]*>?/gm, ''); 
+        document.getElementById('link-modal-title').innerText = `前往 ${pureName} 官網`;
+        document.getElementById('external-link-url').value = url;
+        showModal('linkModal');
+    }
+    
+    function tryOpenLink() {
+        // 使用 window.open 配合 noopener noreferrer 嘗試洗掉來源與開啟新視窗
+        const newWindow = window.open(currentExternalLink, '_blank', 'noopener,noreferrer');
+        if (!newWindow) {
+            showAlert('您的預覽器阻擋了自動跳轉，請點擊「複製」按鈕後手動開啟。');
+        }
+    }
+    
+    function copyExternalLink() {
+        const input = document.getElementById('external-link-url');
+        input.select();
+        input.setSelectionRange(0, 99999); // 兼容手機版
+        try {
+            document.execCommand('copy');
+            // 修改按鈕狀態給予反饋
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = '✅ 已複製';
+            btn.classList.add('btn-primary');
+            btn.classList.remove('btn-outline-primary');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline-primary');
+            }, 2000);
+        } catch (err) {
+            showAlert('複製失敗，請長按網址手動複製。');
+        }
+    }
+
+    // 其他常規操作
     function openCorrection(id, name) { correctionTarget = { id, name }; const k = document.getElementById('keyword-input').value; if(!k) return showAlert('請先在主畫面輸入「關鍵字」才能設定修正規則'); document.getElementById('modal-card-name').innerText = name; document.getElementById('modal-keyword').innerText = k; document.getElementById('modal-new-rate').value = ''; showModal('correctionModal'); }
     function saveCorrection() { const rate = parseFloat(document.getElementById('modal-new-rate').value); if(isNaN(rate)) return showAlert('請輸入數值'); const k = document.getElementById('modal-keyword').innerText; const ruleKey = `${k}|${correctionTarget.id}`; const rules = loadRules(); rules[ruleKey] = rate; saveRules(rules); hideModal('correctionModal'); calculate(); }
     function updateUI() { renderList(); renderStatus(); }
-    function showConfirm(msg, cb) { if(confirm(msg)) cb(); }
     function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; showModal('customAlertModal'); }
 
     function openGuide() {
@@ -1129,7 +1241,11 @@
     function updateGlobalSetting(key, val) { const db = loadDB(); db.settings[key] = val; saveDB(db); }
     function toggleBuiltin(id) { const db = loadDB(); const idx = db.settings.enabledBuiltins.indexOf(id); if(idx >= 0) db.settings.enabledBuiltins.splice(idx, 1); else db.settings.enabledBuiltins.push(id); saveDB(db); }
     function addCustomCard() { const name = document.getElementById('new-card-name').value; const dom = parseFloat(document.getElementById('new-card-dom').value); const fore = parseFloat(document.getElementById('new-card-for').value); if(!name || isNaN(dom)) return; const db = loadDB(); db.customCards.push({ id:`cust_${Date.now()}`, name, domRate:dom, forRate:fore }); saveDB(db); renderSettings(); }
-    function delCustomCard(idx) { const db = loadDB(); db.customCards.splice(idx, 1); saveDB(db); renderSettings(); }
+    function delCustomCard(idx) { 
+        showCustomConfirm(`確定要刪除自訂卡片「${loadDB().customCards[idx].name}」嗎？`, () => {
+            const db = loadDB(); db.customCards.splice(idx, 1); saveDB(db); renderSettings();
+        });
+    }
 
     window.onload = function() { 
         autoFixMissingCards(); updateUI(); toggleFxInput('TWD'); switchWarehouseTab('manage'); 
