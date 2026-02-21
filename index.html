@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>TDC環哩匯 x 航空卡消費累哩工具 v12.6</title>
 
-  <!-- 外部資源 -->
   <link href="[https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap)" rel="stylesheet">
   <link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
 
@@ -219,10 +218,16 @@
     }
     .planner-disclaimer strong { font-weight: 900; color: #b45309; }
 
-    /* Modal 終極防呆修復 */
-    .modal-dialog { background: #fff; margin: 1.75rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; box-sizing: border-box; }
-    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; overflow-y: auto; align-items: center; justify-content: center; display: none; }
-    .modal.show { display: flex !important; }
+    /* =========================
+       Modal 終極防呆修復 (解決教學被卡到天花板的問題)
+       ========================= */
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; display: none; overflow-x: hidden; overflow-y: auto; outline: 0; }
+    .modal.show { display: block !important; } /* 改為 block 放棄強制置中，確保可從頭滾動 */
+    .modal-dialog { margin: 2rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; background: #fff; width: 90%; box-sizing: border-box; }
+    
+    /* 教學專屬 Modal 樣式 */
+    #guideModal .modal-dialog { background: transparent; padding: 0; box-shadow: none; margin-bottom: 4rem; }
+
     .btn-close { position: absolute; right: 15px; top: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.5; padding: 0; }
     .custom-card-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
     
@@ -241,9 +246,6 @@
 </head>
 
 <body>
-  <!-- =========================
-       內嵌 SVG 圖標庫
-       ========================= -->
   <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" style="display: none;">
     <symbol id="icon-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-2 2 4 4 2-2-1-3 3-3 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></symbol>
     <symbol id="icon-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
@@ -273,7 +275,6 @@
     <symbol id="icon-swap" viewBox="0 0 24 24"><path d="m7 16 3 3 3-3"/><path d="M10 5v14"/><path d="m17 8-3-3-3 3"/><path d="M14 19V5"/></symbol>
   </svg>
 
-  <!-- Header -->
   <div class="header">
     <div class="d-flex align-items-center">
       <div class="header-icon"><svg class="lucide"><use href="#icon-plane"/></svg></div>
@@ -290,7 +291,6 @@
 
   <div class="container-custom">
     
-    <!-- Page 1: Calculator (無損還原 12.5.2) -->
     <div id="page-calc" class="page-section">
       <div class="card-box">
         <div class="row mb-3">
@@ -336,7 +336,6 @@
             </div>
         </div>
 
-        <!-- Dynamic FX Input (還原外幣輸入邏輯) -->
         <div id="fx-input-group" class="mt-2 mb-2 p-3" style="background: #f0f9ff; border: 2px dashed #bae6fd; border-radius: 16px; display: none;">
             <label class="form-label text-primary small">請輸入當下匯率 (系統自動加計1.5%)</label>
             <div class="input-group mb-2">
@@ -344,7 +343,6 @@
                 <input type="number" id="fx-rate-input" class="form-control" placeholder="輸入匯率" inputmode="decimal" min="0" step="0.0001">
                 <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">TWD</span>
             </div>
-            <!-- 台銀 Base64 防 404 跳轉 -->
             <button onclick="window.open(atob('aHR0cHM6Ly9yYXRlLmJvdC5jb20udHcveHJ0P0xhbmc9emgtVFc='), '_blank')" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem; background:white; display:flex; align-items:center; justify-content:center;">
                 <svg class="lucide me-1"><use href="#icon-bank"/></svg> 查詢臺銀牌告匯率
             </button>
@@ -393,7 +391,6 @@
       </div>
     </div>
 
-    <!-- Page 2: Transaction List -->
     <div id="page-list" class="page-section" style="display:none;">
         <div class="d-flex justify-content-between align-items-end mb-3 px-1">
             <h5 class="text-primary mb-0 d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-list"/></svg>待結算明細</h5>
@@ -405,7 +402,6 @@
         </div>
     </div>
 
-    <!-- Page 3: Status & Monitoring -->
     <div id="page-status" class="page-section" style="display:none;">
       <div class="card-box">
         <h5 class="mb-3 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-chart"/></svg>本期總帳 (Dashboard)</h5>
@@ -421,7 +417,6 @@
       </div>
     </div>
 
-    <!-- Page 4: Warehouse & Planner (v12.6 全球雙向矩陣版) -->
     <div id="page-warehouse" class="page-section" style="display:none;">
         <div class="sub-tab-container mb-3 d-flex p-1" style="background: #e2e8f0; border-radius: 50px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
             <button class="flex-grow-1 fw-bold sub-tab-btn active" onclick="switchWarehouseTab('manage')" id="tab-btn-manage"><svg class="lucide me-1"><use href="#icon-box"/></svg> 資產管理</button>
@@ -458,9 +453,7 @@
             <div id="warehouse-list"></div>
         </div>
 
-        <!-- 視圖 B: 全球雙向規劃器 -->
         <div id="warehouse-view-planner" style="display:none;">
-            <!-- 🛡️ 琥珀色加粗聲明區 -->
             <div class="planner-disclaimer">
               <div class="d-flex align-items-center mb-1">
                   <svg class="lucide me-1" style="color:#b45309;"><use href="#icon-warn"/></svg>
@@ -539,7 +532,6 @@
     </div>
   </div>
 
-  <!-- Bottom Nav -->
   <div class="nav-bottom">
     <button class="nav-item active" onclick="switchPage('calc', this)"><svg class="lucide"><use href="#icon-calc"/></svg>計算</button>
     <button class="nav-item" onclick="switchPage('list', this)"><div style="position:relative;"><svg class="lucide"><use href="#icon-list"/></svg><div id="nav-badge-list" class="nav-badge" style="display:none;">0</div></div>明細</button>
@@ -547,9 +539,8 @@
     <button class="nav-item" onclick="switchPage('warehouse', this)"><svg class="lucide"><use href="#icon-warehouse"/></svg>倉庫</button>
   </div>
 
-  <!-- 客製化安全防呆 Modal 系統 -->
   <div class="modal fade" id="customConfirmModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
         <div class="text-center d-flex flex-column align-items-center">
           <svg class="lucide text-warning mb-3" style="width:3rem;height:3rem;"><use href="#icon-warn"/></svg>
@@ -564,7 +555,7 @@
   </div>
 
   <div class="modal fade" id="correctionModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0 d-flex align-items-center"><svg class="lucide me-2 text-primary"><use href="#icon-pen"/></svg>修正回饋倍率</h5>
@@ -580,18 +571,18 @@
   </div>
 
   <div class="modal fade" id="guideModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:transparent; border:none; box-shadow:none; padding:0;">
         <div class="modal-body p-0" id="guide-content"></div>
-        <div class="text-center mt-3">
-            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; display:flex; align-items:center; justify-content:center; margin:0 auto;"><svg class="lucide"><use href="#icon-x"/></svg></button>
+        <div class="text-center mt-3 mb-4">
+            <button class="btn-light rounded-circle" data-bs-dismiss="modal" style="width:50px; height:50px; padding:0; display:flex; align-items:center; justify-content:center; margin:0 auto; font-size:1.5rem; color:#475569; box-shadow:0 4px 10px rgba(0,0,0,0.1);"><svg class="lucide"><use href="#icon-x"/></svg></button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="modal fade" id="settingsModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0 d-flex align-items-center"><svg class="lucide me-2 text-primary"><use href="#icon-gear"/></svg>設定與卡片管理</h5>
@@ -607,7 +598,7 @@
   </div>
 
   <div class="modal fade" id="customAlertModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:30px 20px;">
         <div class="text-center d-flex flex-column align-items-center">
           <svg class="lucide text-warning mb-3" style="width:3rem;height:3rem;"><use href="#icon-warn"/></svg>
@@ -619,7 +610,7 @@
   </div>
 
   <div class="modal fade" id="editAssetModal" tabindex="-1" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0 d-flex align-items-center"><svg class="lucide me-2 text-primary"><use href="#icon-pen"/></svg>修改資產餘額</h5>
@@ -744,13 +735,13 @@
         'HK_MO_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
         'HK_MO_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
         'HK_MO_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
-        'HK_MO_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
+        'HK_MO_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
         
         'CN_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:48000} },
         'CN_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
         'CN_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
         'CN_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
-        'CN_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
+        'CN_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
 
         // --- 外站互飛 (ANA 跨區支援) ---
         'NE_ASIA_NA_W': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
@@ -1231,11 +1222,11 @@
     /* =========================
        UI 防呆與安全代理系統
        ========================= */
-    function showModal(id) { document.getElementById(id).classList.add('show'); document.getElementById(id).style.display = 'flex'; }
-    function hideModal(id) { document.getElementById(id).classList.remove('show'); setTimeout(()=> { document.getElementById(id).style.display = 'none'; }, 200); }
+    function showModal(id) { document.getElementById(id).classList.add('show'); }
+    function hideModal(id) { document.getElementById(id).classList.remove('show'); }
     
     document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(btn => {
-        btn.onclick = function() { const m = this.closest('.modal'); if(m) { m.classList.remove('show'); setTimeout(()=> { m.style.display = 'none'; }, 200); } }
+        btn.onclick = function() { const m = this.closest('.modal'); if(m) { m.classList.remove('show'); } }
     });
 
     function showCustomConfirm(msg, callback) {
@@ -1313,5 +1304,4 @@
   </script>
 </body>
 </html>
-
-
+```eof
