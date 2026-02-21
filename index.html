@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>TDC環哩匯 x 航空卡消費累哩工具 v12.6</title>
 
+  <!-- 外部資源 -->
   <link href="[https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap)" rel="stylesheet">
   <link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
 
@@ -131,9 +132,13 @@
 
     .plan-card { padding: 16px; border-radius: 18px; margin-top: 12px; border: 2px solid #f1f5f9; position: relative; background: #fff; box-shadow: 2px 2px 0 rgba(0,0,0,0.03); }
     .plan-winner { border-color: var(--primary); background: #f0f9ff; transform: rotate(-0.5deg); }
+    /* ⚠️ 防護狀態 UI */
+    .plan-warning { border-color: #fca5a5 !important; background: #fef2f2 !important; box-shadow: 2px 2px 0 #fecaca; }
+    
     .winner-badge { position: absolute; top: -12px; right: 10px; background: #fde047; color: var(--text-header); font-size: 0.75rem; padding: 4px 12px; border-radius: 14px; font-weight: 700; border: 2px solid #fde047; box-shadow: 2px 2px 0 rgba(0,0,0,0.1); transform: rotate(3deg); font-family: var(--font-hand); }
     .card-name { font-size: 1.1rem; font-weight: 800; color: var(--text-header); margin: 0; }
     .card-miles { font-size: 1.3rem; color: #34d399; font-weight: 900; font-family: var(--font-hand); }
+    .plan-warning .card-miles { color: #f87171; }
     
     .btn-card-action { border: 1px solid #e2e8f0; background: #fff; color: #64748b; border-radius: 50px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; font-family: var(--font-hand); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; box-shadow: 1px 1px 0 #e2e8f0; }
     .btn-card-action.btn-record-win { background: #3b82f6; color: white; border-color: #2563eb; box-shadow: 1px 1px 0 #2563eb; }
@@ -222,7 +227,7 @@
        Modal 終極防呆修復 (解決教學被卡到天花板的問題)
        ========================= */
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; display: none; overflow-x: hidden; overflow-y: auto; outline: 0; }
-    .modal.show { display: block !important; } /* 改為 block 放棄強制置中，確保可從頭滾動 */
+    .modal.show { display: block !important; } 
     .modal-dialog { margin: 2rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; background: #fff; width: 90%; box-sizing: border-box; }
     
     /* 教學專屬 Modal 樣式 */
@@ -246,6 +251,9 @@
 </head>
 
 <body>
+  <!-- =========================
+       內嵌 SVG 圖標庫
+       ========================= -->
   <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" style="display: none;">
     <symbol id="icon-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-2 2 4 4 2-2-1-3 3-3 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></symbol>
     <symbol id="icon-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
@@ -275,12 +283,13 @@
     <symbol id="icon-swap" viewBox="0 0 24 24"><path d="m7 16 3 3 3-3"/><path d="M10 5v14"/><path d="m17 8-3-3-3 3"/><path d="M14 19V5"/></symbol>
   </svg>
 
+  <!-- Header -->
   <div class="header">
     <div class="d-flex align-items-center">
       <div class="header-icon"><svg class="lucide"><use href="#icon-plane"/></svg></div>
       <div class="header-title">
         <h5>TDC 航空累哩工具<br>v12.6</h5>
-        <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>全球雙向矩陣版</small>
+        <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>全球雙向防護旗艦版</small>
       </div>
     </div>
     <div class="d-flex gap-2">
@@ -291,6 +300,7 @@
 
   <div class="container-custom">
     
+    <!-- Page 1: Calculator -->
     <div id="page-calc" class="page-section">
       <div class="card-box">
         <div class="row mb-3">
@@ -391,6 +401,7 @@
       </div>
     </div>
 
+    <!-- Page 2: Transaction List -->
     <div id="page-list" class="page-section" style="display:none;">
         <div class="d-flex justify-content-between align-items-end mb-3 px-1">
             <h5 class="text-primary mb-0 d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-list"/></svg>待結算明細</h5>
@@ -402,6 +413,7 @@
         </div>
     </div>
 
+    <!-- Page 3: Status & Monitoring -->
     <div id="page-status" class="page-section" style="display:none;">
       <div class="card-box">
         <h5 class="mb-3 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-chart"/></svg>本期總帳 (Dashboard)</h5>
@@ -417,6 +429,7 @@
       </div>
     </div>
 
+    <!-- Page 4: Warehouse & Planner (v12.6 全球雙向矩陣版) -->
     <div id="page-warehouse" class="page-section" style="display:none;">
         <div class="sub-tab-container mb-3 d-flex p-1" style="background: #e2e8f0; border-radius: 50px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
             <button class="flex-grow-1 fw-bold sub-tab-btn active" onclick="switchWarehouseTab('manage')" id="tab-btn-manage"><svg class="lucide me-1"><use href="#icon-box"/></svg> 資產管理</button>
@@ -454,6 +467,7 @@
         </div>
 
         <div id="warehouse-view-planner" style="display:none;">
+            <!-- 🛡️ 琥珀色加粗聲明區 -->
             <div class="planner-disclaimer">
               <div class="d-flex align-items-center mb-1">
                   <svg class="lucide me-1" style="color:#b45309;"><use href="#icon-warn"/></svg>
@@ -532,6 +546,7 @@
     </div>
   </div>
 
+  <!-- Bottom Nav -->
   <div class="nav-bottom">
     <button class="nav-item active" onclick="switchPage('calc', this)"><svg class="lucide"><use href="#icon-calc"/></svg>計算</button>
     <button class="nav-item" onclick="switchPage('list', this)"><div style="position:relative;"><svg class="lucide"><use href="#icon-list"/></svg><div id="nav-badge-list" class="nav-badge" style="display:none;">0</div></div>明細</button>
@@ -539,6 +554,7 @@
     <button class="nav-item" onclick="switchPage('warehouse', this)"><svg class="lucide"><use href="#icon-warehouse"/></svg>倉庫</button>
   </div>
 
+  <!-- 客製化安全防呆 Modal 系統 -->
   <div class="modal fade" id="customConfirmModal" tabindex="-1" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
@@ -630,7 +646,7 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.6 全球雙向矩陣版 (無損還原+最終校準)
+       TDC Miles Tool v12.6 全球防護旗艦版 (內建智慧額度預警)
        ========================= */
     const DB_KEY = 'MILES_APP_V12_6_ISOLATED'; 
     const RULES_KEY = 'MILES_APP_RULES_V12_6';
@@ -639,7 +655,7 @@
     let plannerSelectedAssets = new Set();
     let pendingConfirmCallback = null;
 
-    // --- 繼承 12.5.2 核心規則與卡片邏輯 (完全不動) ---
+    // --- 內建防禦與卡片定義 ---
     const BUILTIN_DEFS = [
       { id: 'hsbc_live', name: '匯豐 Live+', default: true },
       { id: 'ctbc_ci_inf', name: '中信 華航璀璨', default: false },
@@ -664,12 +680,130 @@
     const HSBC_LIVE_BLOCK = ['全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','判決書','醫療','掛號','年費','手續費','賭博'];
     const TAISHIN_BLOCK = ['分期','全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','國民年金','etag','三商美邦','麥當勞','肯德基'];
 
+    // 🛡️ 智慧額度防護系統：取得正確的監控金鑰 (中信/台新為曆年制)
+    function getLimitKey(db, id, dateObj) {
+        if(['taishin_cx', 'ctbc_ci', 'ctbc_ci_inf'].includes(id)) return `${dateObj.getFullYear()}-${id}`;
+        let day = db.settings.billingDays[id.split('_')[0]] || 1;
+        const offset = dateObj.getDate() > day ? 1 : 0;
+        const d = new Date(dateObj.getFullYear(), dateObj.getMonth() + offset, 1);
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${id}`;
+    }
+
+    // 🏆 計算引擎核心 (導入動態拆帳與預警)
     const CARD_RULES = {
-        'ctbc_ci_inf': { name: '中信 華航璀璨', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'<span class="text-danger">🚫 非回饋項目</span>' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); if (ctx.isBirthday && ctx.isForeign && isTruePhysical) return { miles: Math.trunc(ctx.twdBase/6.6), note: '🎂 生日海外實體 $6.6' }; if (ctx.cat.startsWith('flight') || ctx.isForeign || ['agoda','booking','trip'].some(w=>ctx.kwKey.includes(w))) return { miles: Math.trunc(ctx.twdBase/10), note: '✈️ 指定/海外 $10' }; return { miles: Math.trunc(ctx.twdBase/20), note: '一般 $20' }; } },
-        'hsbc_live': { name: '匯豐 Live+', calc: (ctx) => { if (ctx.isEUR) return { miles:0, note: '<span class="text-danger">🚫 歐盟實體不回饋</span>' }; if (HSBC_LIVE_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note: '<span class="text-danger">🚫 非回饋項目</span>' }; if (['apple_pay','line_pay'].includes(ctx.pay)) return { miles:0, note: '🚫 綁定行動支付無加碼' }; let displayType = '一般', bonus = 0, isAsian = ['JPY','KRW','SGD','THB','CNY'].includes(ctx.curr); let base = ctx.twdBase * 0.0088; if(ctx.isLiveSelect) { displayType = '精選'; bonus += ctx.twdBase * 0.03; if(bonus>888) bonus=888; if(ctx.db.settings.hsbc_autopay) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; } if(isAsian) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; displayType='亞洲精選'; } } else if(ctx.db.settings.hsbc_autopay) { displayType='一般+任務'; base += ctx.twdBase * 0.01; } return { miles: Math.trunc(base + bonus) * 2, note: `${displayType} <small>1點=2哩</small>` }; } },
-        'taishin_cx': { name: '台新 國泰世界', calc: (ctx) => { if (TAISHIN_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'<span class="text-danger">🚫 非回饋項目</span>' }; let div = ctx.isForeign ? 15 : 22, n = `約${div}元/哩`; let isMobilePay = (ctx.pay === 'apple_pay' || ctx.pay === 'line_pay'); if(ctx.cat === 'flight_cx') { if(isMobilePay) { div=22; n='Pay無加碼'; } else if(ctx.isForeign) { div=15; n='非台幣付款'; } else { div=5; n='越飛(官網) $5'; } } else if(ctx.isFlyMode && ctx.cat !== 'flight_ci') { if(!isMobilePay && (['agoda','booking','klook'].some(w=>ctx.kwKey.includes(w)) || (ctx.isForeign && ctx.pay==='physical'))) { div=5; n='越飛(實體/旅遊) $5'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } },
-        'hsbc_inf': { name: '匯豐 旅人無限', calc: (ctx) => { if (['麥當勞', ...HSBC_BLOCK_BASE].some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; let div = (ctx.cat.startsWith('flight') || ctx.isForeign) ? 10 : 18; return { miles: Math.trunc(ctx.twdBase/div), note: `$${div}元/哩` }; } },
-        'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '🎂 生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
+        'ctbc_ci_inf': { 
+            name: '中信 華航璀璨', 
+            calc: (ctx) => { 
+                if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'<span class="text-danger">🚫 非回饋項目</span>', consumedQuota:0 }; 
+                const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; 
+                const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); 
+                let div = 20, isBonus = false; 
+                
+                if (ctx.isBirthday && ctx.isForeign && isTruePhysical) { div = 6.6; isBonus = true; } 
+                else if (ctx.cat.startsWith('flight') || ctx.isForeign || ['agoda','booking','trip'].some(w=>ctx.kwKey.includes(w))) { div = 10; isBonus = true; } 
+
+                if (isBonus) {
+                    let limit = 600000;
+                    let used = ctx.db.limits[`${new Date().getFullYear()}-ctbc_ci_inf`] ? ctx.db.limits[`${new Date().getFullYear()}-ctbc_ci_inf`].spend : 0;
+                    let remaining = Math.max(0, limit - used);
+                    
+                    if (ctx.twdBase <= remaining) {
+                        return { miles: Math.trunc(ctx.twdBase / div), note: (div===6.6 ? '🎂 生日海外實體 $6.6' : '✈️ 指定/海外 $10'), consumedQuota: ctx.twdBase };
+                    } else {
+                        let bonusMiles = Math.trunc(remaining / div);
+                        let baseMiles = Math.trunc((ctx.twdBase - remaining) / 20);
+                        let note = remaining === 0 ? `<span class="text-danger fw-bold">🚫 年度加碼額度已滿</span><br><small class="text-danger">降回 20元/哩，依實際位置狀態為準</small>` : `<span class="text-danger fw-bold">⚠️ 部分超額 (剩 $${remaining.toLocaleString()})</span><br><small class="text-danger">觸及上限降回 20元/哩，依實際位置狀態為準</small>`;
+                        return { miles: bonusMiles + baseMiles, note: note, consumedQuota: remaining, isWarning: true };
+                    }
+                }
+                return { miles: Math.trunc(ctx.twdBase / 20), note: '一般消費 $20', consumedQuota: 0 }; 
+            } 
+        },
+        'hsbc_live': { 
+            name: '匯豐 Live+', 
+            calc: (ctx) => { 
+                if (ctx.isEUR) return { miles:0, note: '<span class="text-danger">🚫 歐盟實體不回饋</span>', consumedQuota:0 }; 
+                if (HSBC_LIVE_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note: '<span class="text-danger">🚫 非回饋項目</span>', consumedQuota:0 }; 
+                if (['apple_pay','line_pay'].includes(ctx.pay)) return { miles:0, note: '🚫 綁定行動支付無加碼', consumedQuota:0 }; 
+                let displayType = '一般', bonus = 0, isAsian = ['JPY','KRW','SGD','THB','CNY'].includes(ctx.curr); 
+                let base = ctx.twdBase * 0.0088; 
+                if(ctx.isLiveSelect) { 
+                    displayType = '精選'; bonus += ctx.twdBase * 0.03; if(bonus>888) bonus=888; 
+                    if(ctx.db.settings.hsbc_autopay) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; } 
+                    if(isAsian) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; displayType='亞洲精選'; } 
+                } else if(ctx.db.settings.hsbc_autopay) { 
+                    displayType='一般+任務'; base += ctx.twdBase * 0.01; 
+                } 
+                return { miles: Math.trunc(base + bonus) * 2, note: `${displayType} <small>1點=2哩</small>`, consumedQuota: ctx.twdBase }; 
+            } 
+        },
+        'taishin_cx': { 
+            name: '台新 國泰世界', 
+            calc: (ctx) => { 
+                if (TAISHIN_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'<span class="text-danger">🚫 非回饋項目</span>', consumedQuota:0 }; 
+                let baseDiv = ctx.isForeign ? 15 : 22; 
+                let isMobilePay = (ctx.pay === 'apple_pay' || ctx.pay === 'line_pay'); 
+                let isBonus = false;
+
+                if (ctx.cat === 'flight_cx' && !isMobilePay && !ctx.isForeign) { isBonus = true; }
+                else if (ctx.isFlyMode && ctx.cat !== 'flight_ci' && !isMobilePay && (['agoda','booking','klook'].some(w=>ctx.kwKey.includes(w)) || (ctx.isForeign && ctx.pay==='physical'))) { isBonus = true; }
+
+                if (isBonus) {
+                    let limit = 1000000;
+                    let used = ctx.db.limits[`${new Date().getFullYear()}-taishin_cx`] ? ctx.db.limits[`${new Date().getFullYear()}-taishin_cx`].spend : 0;
+                    let remaining = Math.max(0, limit - used);
+
+                    if (ctx.twdBase <= remaining) {
+                        return { miles: Math.trunc(ctx.twdBase / 5), note: '越飛有哩 $5', consumedQuota: ctx.twdBase };
+                    } else {
+                        let bonusMiles = Math.trunc(remaining / 5);
+                        let baseMiles = Math.trunc((ctx.twdBase - remaining) / baseDiv);
+                        let note = remaining === 0 ? `<span class="text-danger fw-bold">🚫 越飛加碼額度已滿</span><br><small class="text-danger">降回 ${baseDiv}元/哩，依實際位置狀態為準</small>` : `<span class="text-danger fw-bold">⚠️ 部分超額 (剩 $${remaining.toLocaleString()})</span><br><small class="text-danger">觸及上限降回 ${baseDiv}元/哩，依實際位置狀態為準</small>`;
+                        return { miles: bonusMiles + baseMiles, note: note, consumedQuota: remaining, isWarning: true };
+                    }
+                }
+                return { miles: Math.trunc(ctx.twdBase / baseDiv), note: (ctx.isForeign?'海外 $15':'國內 $22'), consumedQuota: 0 }; 
+            } 
+        },
+        'hsbc_inf': { 
+            name: '匯豐 旅人無限', 
+            calc: (ctx) => { 
+                if (['麥當勞', ...HSBC_BLOCK_BASE].some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋', consumedQuota:0 }; 
+                let div = (ctx.cat.startsWith('flight') || ctx.isForeign) ? 10 : 18; 
+                return { miles: Math.trunc(ctx.twdBase/div), note: `$${div}元/哩`, consumedQuota: ctx.twdBase }; 
+            } 
+        },
+        'ctbc_ci': { 
+            name: '中信 華航鼎尊', 
+            calc: (ctx) => { 
+                if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋', consumedQuota:0 }; 
+                const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; 
+                const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); 
+                let isBonus = false, div = 18, noteBase = ''; 
+
+                if(ctx.cat === 'flight_ci') { div=9; isBonus=true; noteBase='華航官網 $9'; } 
+                else if(ctx.isForeign && isTruePhysical) { 
+                    if(ctx.isBirthday) { div=6; isBonus=true; noteBase='🎂 生日實體 $6'; } 
+                    else { div=9; isBonus=true; noteBase='海外實體 $9'; } 
+                } 
+
+                if (isBonus) {
+                    let limit = 1440000;
+                    let used = ctx.db.limits[`${new Date().getFullYear()}-ctbc_ci`] ? ctx.db.limits[`${new Date().getFullYear()}-ctbc_ci`].spend : 0;
+                    let remaining = Math.max(0, limit - used);
+
+                    if (ctx.twdBase <= remaining) {
+                        return { miles: Math.trunc(ctx.twdBase / div), note: noteBase, consumedQuota: ctx.twdBase };
+                    } else {
+                        let bonusMiles = Math.trunc(remaining / div);
+                        let baseMiles = Math.trunc((ctx.twdBase - remaining) / 18);
+                        let note = remaining === 0 ? `<span class="text-danger fw-bold">🚫 年度加碼額度已滿</span><br><small class="text-danger">降回 18元/哩，依實際位置狀態為準</small>` : `<span class="text-danger fw-bold">⚠️ 部分超額 (剩 $${remaining.toLocaleString()})</span><br><small class="text-danger">觸及上限降回 18元/哩，依實際位置狀態為準</small>`;
+                        return { miles: bonusMiles + baseMiles, note: note, consumedQuota: remaining, isWarning: true };
+                    }
+                }
+                return { miles: Math.trunc(ctx.twdBase/18), note: (ctx.isForeign?'海外網購 $18':'一般消費 $18'), consumedQuota: 0 }; 
+            } 
+        }
     };
 
     // --- 全向矩陣與 Base64 防禦網 (2026 最新官方校準版) ---
@@ -678,72 +812,25 @@
     const b64_CX = 'aHR0cHM6Ly93d3cuY2F0aGF5cGFjaWZpYy5jb20vY3gvemhfVFcuaHRtbA==';
     const b64_ANA = 'aHR0cHM6Ly93d3cuYW5hLmNvLmpwL3poL3R3L2FtYy9pbnRlcm5hdGlvbmFsLWZsaWdodC1hd2FyZHMv';
 
-    // 矩陣儲存的皆為「來回(RT)」標準。單程由 JS 自動除以 2。
     const MATRIX_DATA = {
-        // --- 台灣出發 ---
-        'TW_HK_MO': {
-            CI: { Y: 20000, C: 50000 }, // 港澳優惠
-            BR: { Y: 20000, C: 50000 }, // 港澳優惠
-            CX: { Y: 14000, C: 32000 }, // 國泰超短途 (單程7k/16k)
-            NH: { Y: 20000, C: 40000 }  // 星盟 Zone 3 互飛
-        },
-        'TW_CN': {
-            CI: { Y: 35000, C: 60000 }, // 大陸(亞洲區)
-            BR: { Y: 35000, C: 50000 }, // 大陸(亞洲區)
-            CX: { Y: 20000, C: 56000 },
-            NH: { Y: 20000, C: 40000 }
-        },
-        'TW_NE_ASIA': { 
-            CI: { Y: 35000, C: 60000 }, 
-            BR: { Y: 35000, C: 50000 }, 
-            CX: { Y: 20000, C: 56000, F: 86000 }, 
-            NH: { Y: {L:17000, R:20000, H:23000}, C: 48000 } // ANA新制: C單程24k -> RT 48k
-        },
-        'TW_SE_ASIA': { 
-            CI: { Y: 35000, C: 60000 }, 
-            BR: { Y: 35000, C: 50000 }, 
-            CX: { Y: 20000, C: 56000, F: 86000 }, 
-            NH: { Y: {L:30000, R:35000, H:38000}, C: 60000 } 
-        },
-        'TW_NA_W': { 
-            CI: { Y: 110000, C: 160000 }, // 華航長程
-            BR: { Y: 100000, C: 150000 }, // 長榮長程
-            CX: { Y: 84000, C: 230000, F: 330000 }, // 國泰新制: C單程115k -> RT 230k
-            NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } 
-        },
-        'TW_NA_E': { 
-            CI: { Y: 110000, C: 160000 }, 
-            BR: { Y: 100000, C: 150000 }, 
-            CX: { Y: 84000, C: 230000, F: 330000 }, 
-            NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } 
-        },
-        'TW_EU': { 
-            CI: { Y: 110000, C: 160000 }, 
-            BR: { Y: 100000, C: 150000 }, 
-            CX: { Y: 84000, C: 230000, F: 330000 }, 
-            NH: { Y: {L:110000, R:120000, H:130000}, C: 119000, F: 180000 } 
-        },
-
-        // --- 港澳/大陸出發 (同台灣亞洲邏輯) ---
-        'HK_MO_CN': {
-            CI: { Y: 35000, C: 60000 },
-            BR: { Y: 35000, C: 50000 },
-            CX: { Y: 20000, C: 56000 },
-            NH: { Y: 20000, C: 40000 }
-        },
+        'TW_HK_MO': { CI: { Y: 20000, C: 50000 }, BR: { Y: 20000, C: 50000 }, CX: { Y: 14000, C: 32000 }, NH: { Y: 20000, C: 40000 } },
+        'TW_CN': { CI: { Y: 35000, C: 60000 }, BR: { Y: 35000, C: 50000 }, CX: { Y: 20000, C: 56000 }, NH: { Y: 20000, C: 40000 } },
+        'TW_NE_ASIA': { CI: { Y: 35000, C: 60000 }, BR: { Y: 35000, C: 50000 }, CX: { Y: 20000, C: 56000, F: 86000 }, NH: { Y: {L:17000, R:20000, H:23000}, C: 48000 } },
+        'TW_SE_ASIA': { CI: { Y: 35000, C: 60000 }, BR: { Y: 35000, C: 50000 }, CX: { Y: 20000, C: 56000, F: 86000 }, NH: { Y: {L:30000, R:35000, H:38000}, C: 60000 } },
+        'TW_NA_W': { CI: { Y: 110000, C: 160000 }, BR: { Y: 100000, C: 150000 }, CX: { Y: 84000, C: 230000, F: 330000 }, NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } },
+        'TW_NA_E': { CI: { Y: 110000, C: 160000 }, BR: { Y: 100000, C: 150000 }, CX: { Y: 84000, C: 230000, F: 330000 }, NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } },
+        'TW_EU': { CI: { Y: 110000, C: 160000 }, BR: { Y: 100000, C: 150000 }, CX: { Y: 84000, C: 230000, F: 330000 }, NH: { Y: {L:110000, R:120000, H:130000}, C: 119000, F: 180000 } },
+        'HK_MO_CN': { CI: { Y: 35000, C: 60000 }, BR: { Y: 35000, C: 50000 }, CX: { Y: 20000, C: 56000 }, NH: { Y: 20000, C: 40000 } },
         'HK_MO_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:48000} },
         'HK_MO_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
         'HK_MO_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
         'HK_MO_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
-        'HK_MO_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
-        
+        'HK_MO_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
         'CN_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:48000} },
         'CN_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
         'CN_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
         'CN_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
-        'CN_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
-
-        // --- 外站互飛 (ANA 跨區支援) ---
+        'CN_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
         'NE_ASIA_NA_W': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
         'NE_ASIA_NA_E': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
         'NE_ASIA_EU': { NH:{Y:{L:45000,R:55000,H:60000}, C:{L:85000,R:90000,H:95000}, F:165000} },
@@ -789,7 +876,6 @@
         else { el.classList.remove('input-negative'); if(statusEl) statusEl.style.display = 'none'; }
     }
 
-    // 【無損還原 v12.5.2 核心計算模組】
     let currentResults = [];
     function calculate() {
         const db = loadDB(); const rules = loadRules(); const amt = parseFloat(document.getElementById('amount').value);
@@ -826,7 +912,7 @@
             const ruleKey = `${ctx.kwKey}|${cardId}`;
             if(ctx.kwKey && rules[ruleKey] !== undefined) {
                 const customDiv = rules[ruleKey];
-                return customDiv===0 ? { miles:0, note:'⚙️ 自訂: 無回饋' } : { miles: Math.trunc(ctx.twdBase/customDiv), note:`⚙️ 自訂: $${customDiv}/哩` };
+                return customDiv===0 ? { miles:0, note:'⚙️ 自訂: 無回饋', consumedQuota:0 } : { miles: Math.trunc(ctx.twdBase/customDiv), note:`⚙️ 自訂: $${customDiv}/哩`, consumedQuota:0 };
             }
             return defCalc();
         };
@@ -835,7 +921,7 @@
             if(CARD_RULES[cardId]) { const res = resolveMiles(cardId, () => CARD_RULES[cardId].calc(ctx)); currentResults.push({ id: cardId, name: CARD_RULES[cardId].name, ...res, twdSpend, twdBase }); }
         });
         db.customCards.forEach(c => {
-            const res = resolveMiles(c.id, () => { let div = ctx.isForeign ? c.forRate : c.domRate; return { miles: Math.trunc(ctx.twdBase/div), note: `自訂 $${div}/哩` }; });
+            const res = resolveMiles(c.id, () => { let div = ctx.isForeign ? c.forRate : c.domRate; return { miles: Math.trunc(ctx.twdBase/div), note: `自訂 $${div}/哩`, consumedQuota: 0 }; });
             currentResults.push({ id: c.id, name: c.name, ...res, twdSpend, twdBase });
         });
 
@@ -849,15 +935,18 @@
         const con = document.getElementById('cards-container'); con.innerHTML = '';
         document.getElementById('result-area').style.display = 'block';
         list.forEach((c, idx) => {
-            const isWinner = idx === 0; const btnClass = isWinner ? 'btn-record-win' : '';
+            const isWinner = idx === 0 && !c.isWarning; 
+            const btnClass = isWinner ? 'btn-record-win' : '';
             const tpm = c.miles > 0 ? (c.twdSpend / c.miles).toFixed(1) : '-';
-            const div = document.createElement('div'); div.className = `plan-card ${isWinner ? 'plan-winner' : ''}`;
+            const warningClass = c.isWarning ? 'plan-warning' : '';
+            
+            const div = document.createElement('div'); div.className = `plan-card ${isWinner ? 'plan-winner' : ''} ${warningClass}`;
             div.innerHTML = `
             ${isWinner ? '<span class="winner-badge">WINNER</span>' : ''}
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h4 class="card-name">${c.name}</h4>
-                    <div class="text-muted small font-hand">${c.note}</div>
+                    <div class="text-muted small font-hand mt-1" style="line-height:1.4;">${c.note}</div>
                     <div class="d-flex gap-2 mt-2">
                         <button class="btn-card-action ${btnClass}" onclick="recordTx(${idx})">📝 記帳</button>
                         <button class="btn-correct" onclick="openCorrection('${c.id}','${c.name}')"><svg class="lucide"><use href="#icon-pen"/></svg> 修正</button>
@@ -881,21 +970,17 @@
         if(item.id==='hsbc_live') { points = Math.trunc(item.miles/2); unitText='積分'; }
         else if(item.id==='hsbc_inf') { unitText='積分'; }
 
-        db.records[monthKey][txId] = { id: item.id, name: item.name, spend: item.twdBase, miles: points, unit: unitText, note: document.getElementById('keyword-input').value || '一般消費' };
+        // 寫入 consumedQuota 欄位 (只消耗觸發加碼的額度)
+        db.records[monthKey][txId] = { id: item.id, name: item.name, spend: item.twdBase, consumedQuota: item.consumedQuota, miles: points, unit: unitText, note: document.getElementById('keyword-input').value || '一般消費' };
 
         const limitKey = getLimitKey(db, item.id, now);
         if(!db.limits[limitKey]) db.limits[limitKey] = { spend:0, points:0 };
-        if(item.id!=='taishin_cx' || item.miles > item.twdBase/20) { db.limits[limitKey].spend += item.twdBase; }
+        
+        // 智慧扣除：有設定 consumedQuota 則依照該值扣除，否則(相容舊卡片)扣除全額
+        let qToConsume = item.consumedQuota !== undefined ? item.consumedQuota : item.twdBase;
+        if(qToConsume > 0) { db.limits[limitKey].spend += qToConsume; }
         
         saveDB(db); updateUI(); showAlert(`✅ 已加入待結算明細\n${item.name}: ${points>0?'+':''}${points} ${unitText}`);
-    }
-
-    function getLimitKey(db, id, dateObj) {
-        if(id === 'taishin_cx') return `${dateObj.getFullYear()}-${id}`;
-        let day = db.settings.billingDays[id.split('_')[0]] || 1;
-        const offset = dateObj.getDate() > day ? 1 : 0;
-        const d = new Date(dateObj.getFullYear(), dateObj.getMonth() + offset, 1);
-        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${id}`;
     }
 
     function renderList() {
@@ -939,7 +1024,8 @@
             const db = loadDB(); const rec = db.records[monthKey][txId];
             if(rec) { 
                 const limitKey = getLimitKey(db, rec.id, new Date()); 
-                if(db.limits[limitKey]) { db.limits[limitKey].spend -= rec.spend; } 
+                let qToRestore = rec.consumedQuota !== undefined ? rec.consumedQuota : rec.spend;
+                if(db.limits[limitKey]) { db.limits[limitKey].spend -= qToRestore; } 
                 delete db.records[monthKey][txId]; 
                 saveDB(db); 
                 updateUI(); 
@@ -989,7 +1075,6 @@
             document.getElementById('warehouse-view-manage').style.display = 'none'; 
             document.getElementById('warehouse-view-planner').style.display = 'block'; 
             
-            // 安全的日期初始化 (12.6.1 修復點)
             const dateInput = document.getElementById('planner-date');
             if (!dateInput.value) { dateInput.value = new Date().toISOString().split('T')[0]; }
             
@@ -1304,4 +1389,5 @@
   </script>
 </body>
 </html>
-```eof
+
+
