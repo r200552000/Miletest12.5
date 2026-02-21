@@ -179,15 +179,15 @@
     .slide-slate { background-color: var(--m-slate); color: #fff; }
     .slide-stone { background-color: var(--m-stone); color: #fff; }
     .slide-terra { background-color: var(--m-terra); color: #fff; }
-    .g-title { font-family: 'Noto Sans TC', sans-serif; font-weight: 900; font-size: 1.8rem; line-height: 1.2; margin-bottom: 1rem; }
+    .g-title { font-family: 'Noto Sans TC', sans-serif; font-weight: 900; font-size: 1.5rem; line-height: 1.3; margin-bottom: 1rem; }
     .g-text { font-family: 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 0.95rem; line-height: 1.6; opacity: 0.95; }
     .g-badge { display: inline-block; background: rgba(255,255,255,0.3); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
-    .g-box { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.3); }
-    .g-list li { margin-bottom: 8px; list-style: none; position: relative; padding-left: 15px; }
-    .g-list li::before { content:'•'; position:absolute; left:0; font-weight:bold; }
+    .g-list { padding-left: 0; }
+    .g-list li { margin-bottom: 10px; list-style: none; position: relative; padding-left: 20px; font-size: 0.9rem; }
+    .g-list li::before { content:'•'; position:absolute; left:0; font-weight:bold; font-size: 1.2rem; line-height: 1; top: -2px; }
 
     /* =========================
-       v12.6 規劃器專屬樣式 (起終點雙下拉)
+       v12.6 規劃器專屬樣式
        ========================= */
     .sub-tab-btn { color: #64748b; font-family: var(--font-hand); transition: 0.3s; border: none; font-size: 0.9rem; padding: 10px 0; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .sub-tab-btn.active { background: #ffffff; color: var(--primary-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 50px; }
@@ -209,6 +209,15 @@
     .status-short .link-btn { border-color: #f43f5e; color: #e11d48 !important; }
 
     .swap-btn { background: white; border: 2px solid #e2e8f0; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; left: 50%; transform: translate(-50%, 8px); z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--primary); }
+
+    /* 🛡️ 琥珀色加粗聲明區 */
+    .planner-disclaimer { 
+      background: #fffbeb; border: 2px solid #f59e0b; border-radius: 18px; 
+      padding: 14px 16px; margin-bottom: 16px; 
+      color: #92400e; font-size: 0.85rem; line-height: 1.6;
+      box-shadow: 3px 3px 0 #fef3c7;
+    }
+    .planner-disclaimer strong { font-weight: 900; color: #b45309; }
 
     /* Modal 終極防呆修復 */
     .modal-dialog { background: #fff; margin: 1.75rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; box-sizing: border-box; }
@@ -281,7 +290,7 @@
 
   <div class="container-custom">
     
-    <!-- Page 1: Calculator -->
+    <!-- Page 1: Calculator (無損還原 12.5.2) -->
     <div id="page-calc" class="page-section">
       <div class="card-box">
         <div class="row mb-3">
@@ -327,7 +336,7 @@
             </div>
         </div>
 
-        <!-- Dynamic FX Input -->
+        <!-- Dynamic FX Input (還原外幣輸入邏輯) -->
         <div id="fx-input-group" class="mt-2 mb-2 p-3" style="background: #f0f9ff; border: 2px dashed #bae6fd; border-radius: 16px; display: none;">
             <label class="form-label text-primary small">請輸入當下匯率 (系統自動加計1.5%)</label>
             <div class="input-group mb-2">
@@ -412,7 +421,7 @@
       </div>
     </div>
 
-    <!-- Page 4: Warehouse & Planner -->
+    <!-- Page 4: Warehouse & Planner (v12.6 全球雙向矩陣版) -->
     <div id="page-warehouse" class="page-section" style="display:none;">
         <div class="sub-tab-container mb-3 d-flex p-1" style="background: #e2e8f0; border-radius: 50px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
             <button class="flex-grow-1 fw-bold sub-tab-btn active" onclick="switchWarehouseTab('manage')" id="tab-btn-manage"><svg class="lucide me-1"><use href="#icon-box"/></svg> 資產管理</button>
@@ -451,6 +460,19 @@
 
         <!-- 視圖 B: 全球雙向規劃器 -->
         <div id="warehouse-view-planner" style="display:none;">
+            <!-- 🛡️ 琥珀色加粗聲明區 -->
+            <div class="planner-disclaimer">
+              <div class="d-flex align-items-center mb-1">
+                  <svg class="lucide me-1" style="color:#b45309;"><use href="#icon-warn"/></svg>
+                  <strong style="font-size: 1rem;">全球規劃重要聲明 (2026/2027)</strong>
+              </div>
+              <ul class="mb-0" style="padding-left: 1.2rem;">
+                  <li><strong>實際位置狀態優先</strong>：顯示值為標準預估，請務必點擊立即兌換以官網<strong>實際位置狀態</strong>為準。</li>
+                  <li><strong>國泰(CX)動態化警示</strong>：Asia Miles 自 2025/04/15 起不再公佈表格，數據趨向<strong>動態兌換</strong>，此處為實測基準值。</li>
+                  <li><strong>數據時效性</strong>：內建之全日空(ANA)季節引擎與各大航司數據適用至 <strong>2027 年 1 月</strong>。</li>
+              </ul>
+            </div>
+
             <div class="card-box" style="background: linear-gradient(to bottom, #eff6ff, #ffffff); position: relative;">
               <h5 class="mb-1 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-map"/></svg>設定全球兌換目標</h5>
               
@@ -459,6 +481,8 @@
                   <label class="form-label small fw-bold">🛫 出發地</label>
                   <select id="planner-from" class="form-select mb-2" onchange="runPlannerCalc()">
                     <option value="TW">🇹🇼 台灣</option>
+                    <option value="HK_MO">🇭🇰 港澳地區 (HK/MO)</option>
+                    <option value="CN">🇨🇳 中國大陸 (CN)</option>
                     <option value="NE_ASIA">🌸 東北亞 (日韓)</option>
                     <option value="SE_ASIA">🥥 東南亞</option>
                     <option value="NA_W">🗽 北美西岸</option>
@@ -469,6 +493,8 @@
                   <label class="form-label small fw-bold">🛬 目的地</label>
                   <select id="planner-to" class="form-select" onchange="runPlannerCalc()">
                     <option value="TW">🇹🇼 台灣</option>
+                    <option value="HK_MO">🇭🇰 港澳地區 (HK/MO)</option>
+                    <option value="CN">🇨🇳 中國大陸 (CN)</option>
                     <option value="NE_ASIA" selected>🌸 東北亞 (日韓)</option>
                     <option value="SE_ASIA">🥥 東南亞</option>
                     <option value="NA_W">🗽 北美西岸</option>
@@ -494,7 +520,7 @@
               </div>
 
               <div class="switch-group mb-2" onclick="togglePlannerTrip()">
-                <span class="switch-label fw-bold"><svg class="lucide me-1"><use href="#icon-rotate"/></svg> 行程類型：<span id="trip-label">來回 (Round-trip)</span></span>
+                <span class="switch-label fw-bold"><svg class="lucide me-1"><use href="#icon-rotate"/></svg> 行程：<span id="trip-label">來回 (Round-trip)</span></span>
                 <input class="form-check-input" type="checkbox" id="planner-trip-type" checked>
               </div>
 
@@ -509,10 +535,6 @@
             </div>
 
             <div id="planner-results-container"></div>
-            <div class="p-3 text-center">
-               <div class="small text-muted font-hand mb-2">ℹ️ 本系統季節標準目前適用至 2027 年 1 月。</div>
-               <div class="small text-danger fw-bold" style="line-height:1.4;">⚠️ 提醒：顯示之哩程數為規劃參考之預估值，<br>實際位置狀態與精確標準請以航空公司官網即時查詢為準。</div>
-            </div>
         </div>
     </div>
   </div>
@@ -617,7 +639,7 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.6 全球雙向矩陣版
+       TDC Miles Tool v12.6 全球雙向矩陣版 (無損還原+最終校準)
        ========================= */
     const DB_KEY = 'MILES_APP_V12_6_ISOLATED'; 
     const RULES_KEY = 'MILES_APP_RULES_V12_6';
@@ -626,7 +648,7 @@
     let plannerSelectedAssets = new Set();
     let pendingConfirmCallback = null;
 
-    // --- 核心規則 ---
+    // --- 繼承 12.5.2 核心規則與卡片邏輯 (完全不動) ---
     const BUILTIN_DEFS = [
       { id: 'hsbc_live', name: '匯豐 Live+', default: true },
       { id: 'ctbc_ci_inf', name: '中信 華航璀璨', default: false },
@@ -656,21 +678,81 @@
         'hsbc_live': { name: '匯豐 Live+', calc: (ctx) => { if (ctx.isEUR) return { miles:0, note: '<span class="text-danger">🚫 歐盟實體不回饋</span>' }; if (HSBC_LIVE_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note: '<span class="text-danger">🚫 非回饋項目</span>' }; if (['apple_pay','line_pay'].includes(ctx.pay)) return { miles:0, note: '🚫 綁定行動支付無加碼' }; let displayType = '一般', bonus = 0, isAsian = ['JPY','KRW','SGD','THB','CNY'].includes(ctx.curr); let base = ctx.twdBase * 0.0088; if(ctx.isLiveSelect) { displayType = '精選'; bonus += ctx.twdBase * 0.03; if(bonus>888) bonus=888; if(ctx.db.settings.hsbc_autopay) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; } if(isAsian) { let b2 = ctx.twdBase * 0.01; if(b2>200) b2=200; bonus+=b2; displayType='亞洲精選'; } } else if(ctx.db.settings.hsbc_autopay) { displayType='一般+任務'; base += ctx.twdBase * 0.01; } return { miles: Math.trunc(base + bonus) * 2, note: `${displayType} <small>1點=2哩</small>` }; } },
         'taishin_cx': { name: '台新 國泰世界', calc: (ctx) => { if (TAISHIN_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'<span class="text-danger">🚫 非回饋項目</span>' }; let div = ctx.isForeign ? 15 : 22, n = `約${div}元/哩`; let isMobilePay = (ctx.pay === 'apple_pay' || ctx.pay === 'line_pay'); if(ctx.cat === 'flight_cx') { if(isMobilePay) { div=22; n='Pay無加碼'; } else if(ctx.isForeign) { div=15; n='非台幣付款'; } else { div=5; n='越飛(官網) $5'; } } else if(ctx.isFlyMode && ctx.cat !== 'flight_ci') { if(!isMobilePay && (['agoda','booking','klook'].some(w=>ctx.kwKey.includes(w)) || (ctx.isForeign && ctx.pay==='physical'))) { div=5; n='越飛(實體/旅遊) $5'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } },
         'hsbc_inf': { name: '匯豐 旅人無限', calc: (ctx) => { if (['麥當勞', ...HSBC_BLOCK_BASE].some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; let div = (ctx.cat.startsWith('flight') || ctx.isForeign) ? 10 : 18; return { miles: Math.trunc(ctx.twdBase/div), note: `$${div}元/哩` }; } },
-        'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
+        'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '🎂 生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
     };
 
-    // --- 全向矩陣與 Base64 防禦網 ---
+    // --- 全向矩陣與 Base64 防禦網 (2026 最新官方校準版) ---
     const b64_CI = 'aHR0cHM6Ly93d3cuY2hpbmEtYWlybGluZXMuY29tL3R3L3poL21lbWJlci9yZWRlZW0tYWlybGluZS1taWxlcy9yZXdhcmQtdGlja2V0';
     const b64_BR = 'aHR0cHM6Ly93d3cuZXZhYWlyLmNvbS96aC10dy9pbmZpbml0eS1taWxlYWdlbGFuZHMvbWlsZWFnZS1hd2FyZC1wcm9ncmFtL21pbGVhZ2UtcmVkZW1wdGlvbi9hd2FyZC10aWNrZXQvZXZhLXVuaS1haXIv';
     const b64_CX = 'aHR0cHM6Ly93d3cuY2F0aGF5cGFjaWZpYy5jb20vY3gvemhfVFcuaHRtbA==';
     const b64_ANA = 'aHR0cHM6Ly93d3cuYW5hLmNvLmpwL3poL3R3L2FtYy9pbnRlcm5hdGlvbmFsLWZsaWdodC1hd2FyZHMv';
 
+    // 矩陣儲存的皆為「來回(RT)」標準。單程由 JS 自動除以 2。
     const MATRIX_DATA = {
-        'TW_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:{L:35000,R:40000,H:43000}} },
-        'TW_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:{L:55000,R:60000,H:63000}} },
-        'TW_NA_W': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:76000, C:168000, F:250000}, NH:{Y:{L:45000,R:55000,H:60000}, C:{L:80000,R:90000,H:95000}, F:150000} },
-        'TW_NA_E': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:100000, C:220000, F:330000}, NH:{Y:{L:45000,R:55000,H:60000}, C:{L:80000,R:90000,H:95000}, F:150000} },
-        'TW_EU': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:76000, C:168000, F:250000}, NH:{Y:{L:55000,R:60000,H:65000}, C:{L:90000,R:95000,H:100000}, F:165000} },
+        // --- 台灣出發 ---
+        'TW_HK_MO': {
+            CI: { Y: 20000, C: 50000 }, // 港澳優惠
+            BR: { Y: 20000, C: 50000 }, // 港澳優惠
+            CX: { Y: 14000, C: 32000 }, // 國泰超短途 (單程7k/16k)
+            NH: { Y: 20000, C: 40000 }  // 星盟 Zone 3 互飛
+        },
+        'TW_CN': {
+            CI: { Y: 35000, C: 60000 }, // 大陸(亞洲區)
+            BR: { Y: 35000, C: 50000 }, // 大陸(亞洲區)
+            CX: { Y: 20000, C: 56000 },
+            NH: { Y: 20000, C: 40000 }
+        },
+        'TW_NE_ASIA': { 
+            CI: { Y: 35000, C: 60000 }, 
+            BR: { Y: 35000, C: 50000 }, 
+            CX: { Y: 20000, C: 56000, F: 86000 }, 
+            NH: { Y: {L:17000, R:20000, H:23000}, C: 48000 } // ANA新制: C單程24k -> RT 48k
+        },
+        'TW_SE_ASIA': { 
+            CI: { Y: 35000, C: 60000 }, 
+            BR: { Y: 35000, C: 50000 }, 
+            CX: { Y: 20000, C: 56000, F: 86000 }, 
+            NH: { Y: {L:30000, R:35000, H:38000}, C: 60000 } 
+        },
+        'TW_NA_W': { 
+            CI: { Y: 110000, C: 160000 }, // 華航長程
+            BR: { Y: 100000, C: 150000 }, // 長榮長程
+            CX: { Y: 84000, C: 230000, F: 330000 }, // 國泰新制: C單程115k -> RT 230k
+            NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } 
+        },
+        'TW_NA_E': { 
+            CI: { Y: 110000, C: 160000 }, 
+            BR: { Y: 100000, C: 150000 }, 
+            CX: { Y: 84000, C: 230000, F: 330000 }, 
+            NH: { Y: {L:90000, R:110000, H:120000}, C: 108000, F: 165000 } 
+        },
+        'TW_EU': { 
+            CI: { Y: 110000, C: 160000 }, 
+            BR: { Y: 100000, C: 150000 }, 
+            CX: { Y: 84000, C: 230000, F: 330000 }, 
+            NH: { Y: {L:110000, R:120000, H:130000}, C: 119000, F: 180000 } 
+        },
+
+        // --- 港澳/大陸出發 (同台灣亞洲邏輯) ---
+        'HK_MO_CN': {
+            CI: { Y: 35000, C: 60000 },
+            BR: { Y: 35000, C: 50000 },
+            CX: { Y: 20000, C: 56000 },
+            NH: { Y: 20000, C: 40000 }
+        },
+        'HK_MO_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:48000} },
+        'HK_MO_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
+        'HK_MO_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
+        'HK_MO_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
+        'HK_MO_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
+        
+        'CN_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:48000} },
+        'CN_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:60000} },
+        'CN_NA_W': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
+        'CN_NA_E': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:84000, C:230000}, NH:{Y:{L:90000,R:110000,H:120000}, C:108000} },
+        'CN_EU': { CI:{Y:110000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:54000, C:176000}, NH:{Y:{L:110000,R:120000,H:130000}, C:119000} },
+
+        // --- 外站互飛 (ANA 跨區支援) ---
         'NE_ASIA_NA_W': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
         'NE_ASIA_NA_E': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
         'NE_ASIA_EU': { NH:{Y:{L:45000,R:55000,H:60000}, C:{L:85000,R:90000,H:95000}, F:165000} },
@@ -716,6 +798,7 @@
         else { el.classList.remove('input-negative'); if(statusEl) statusEl.style.display = 'none'; }
     }
 
+    // 【無損還原 v12.5.2 核心計算模組】
     let currentResults = [];
     function calculate() {
         const db = loadDB(); const rules = loadRules(); const amt = parseFloat(document.getElementById('amount').value);
@@ -915,7 +998,7 @@
             document.getElementById('warehouse-view-manage').style.display = 'none'; 
             document.getElementById('warehouse-view-planner').style.display = 'block'; 
             
-            // 安全的日期初始化
+            // 安全的日期初始化 (12.6.1 修復點)
             const dateInput = document.getElementById('planner-date');
             if (!dateInput.value) { dateInput.value = new Date().toISOString().split('T')[0]; }
             
@@ -1036,25 +1119,29 @@
         });
     }
 
-    // --- 日期對應季節引擎 ---
+    // --- 日期對應季節引擎 (嚴格比對截圖 5: 日本↔亞洲1區) ---
     function checkAnaSeason(dateStr) {
         if (!dateStr) return 'R';
         const d = new Date(dateStr); const m = d.getMonth() + 1; const day = d.getDate();
         const year = d.getFullYear(); const dateNum = m * 100 + day; 
         
         if (year === 2026) {
-            if ((dateNum >= 106 && dateNum <= 228) || (dateNum >= 401 && dateNum <= 428)) return 'L';
-            if ((dateNum >= 101 && dateNum <= 103) || (dateNum >= 429 && dateNum <= 509) || (dateNum >= 716 && dateNum <= 823) || (dateNum >= 1219 && dateNum <= 1231)) return 'H';
+            // L: 1/5~2/13, 4/1~4/28, 5/11~6/30
+            if ((dateNum >= 105 && dateNum <= 213) || (dateNum >= 401 && dateNum <= 428) || (dateNum >= 511 && dateNum <= 630)) return 'L';
+            // H: 1/1~1/4, 4/29~5/10, 7/18~8/23, 12/21~12/31
+            if ((dateNum >= 101 && dateNum <= 104) || (dateNum >= 429 && dateNum <= 510) || (dateNum >= 718 && dateNum <= 823) || (dateNum >= 1221 && dateNum <= 1231)) return 'H';
             return 'R';
         }
         if (year === 2025) {
-            if ((dateNum >= 104 && dateNum <= 127) || (dateNum >= 401 && dateNum <= 423) || (dateNum >= 1201 && dateNum <= 1214)) return 'L';
+            // L: 1/4~1/27, 4/1~4/23, 5/12~6/30, 12/1~12/14
+            if ((dateNum >= 104 && dateNum <= 127) || (dateNum >= 401 && dateNum <= 423) || (dateNum >= 512 && dateNum <= 630) || (dateNum >= 1201 && dateNum <= 1214)) return 'L';
+            // H: 1/1~1/3, 4/24~5/11, 7/18~8/24, 12/15~12/31
             if ((dateNum >= 101 && dateNum <= 103) || (dateNum >= 424 && dateNum <= 511) || (dateNum >= 718 && dateNum <= 824) || (dateNum >= 1215 && dateNum <= 1231)) return 'H';
             return 'R';
         }
         if (year === 2027) {
-            if (dateNum >= 106 && dateNum <= 228) return 'L';
-            if (dateNum >= 101 && dateNum <= 103) return 'H';
+            if (dateNum >= 105 && dateNum <= 203) return 'L';
+            if ((dateNum >= 101 && dateNum <= 104) || (dateNum >= 204 && dateNum <= 206)) return 'H';
             return 'R';
         }
         return 'R';
@@ -1098,7 +1185,7 @@
                 </div>`;
             }
             
-            // 單程計算邏輯
+            // 單程計算邏輯：精準折半
             if (!isRT) required = Math.trunc(required / 2);
             
             const availMiles = available[airlineKey] || 0;
@@ -1136,7 +1223,7 @@
             con.innerHTML += createCard('ANA', anaSelfName, b64_ANA, data.NH, '經 NRT/HND');
             
             let starReq = data.NH[cls];
-            if(typeof starReq === 'object') starReq = starReq['R'];
+            if(typeof starReq === 'object') starReq = starReq['R']; // 星盟取近似值
             con.innerHTML += createCard('ANA', 'ANA (換星盟)', b64_ANA, starReq, '直飛為主');
         }
     }
@@ -1166,25 +1253,38 @@
     function updateUI() { renderList(); renderStatus(); }
     function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; showModal('customAlertModal'); }
 
-    // 【全新 v12.6 教學文案寫入】
+    // 【全新 v12.6 四段式教學文案】
     function openGuide() {
         const content = `
-        <div class="guide-slide p-4 mb-4" style="background:var(--m-sage); color:white;">
-            <div class="g-badge bg-white/20 mb-2">基礎操作</div><div class="g-title font-black mb-3">帳務流程</div>
-            <ul class="g-list text-sm"><li><b>Step 1 計算：</b>輸入金額與匯率，自動比拚。</li><li><b>Step 2 核對：</b>記帳後進入「明細」，可隨時刪除或沖帳。</li><li><b>Step 3 進倉：</b>確認無誤後至「監控」一鍵歸戶。</li></ul>
-        </div>
-        <div class="guide-slide p-4 mb-4" style="background:var(--m-terra); color:white;">
-            <div class="g-badge bg-white/20 mb-2">進階應用</div><div class="g-title font-black mb-3">📍 全球雙向規劃器</div>
-            <p class="text-sm mb-0">打破舊版限制！現在您可以在「兌換試算」中，將<b>「🛫 出發地」</b>與<b>「🛬 目的地」</b>分開選擇。<br><br>除了台灣出發/回程，系統更內建了『日本 ↔ 北美/歐洲』等跨區互飛的精算數據。點擊中間的<b>「⇄」</b>按鈕即可一鍵對調航向！</p>
-        </div>
-        <div class="guide-slide p-4 mb-4" style="background:var(--m-clay); color:#5e503f;">
-            <div class="g-badge bg-white/40 mb-2" style="color:#5e503f;">操作教學</div><div class="g-title font-black mb-3">🔍 智慧查表教學</div>
+        <div class="guide-slide p-4 mb-4 slide-sage">
+            <div class="g-badge bg-white/20 mb-2">Step 1</div><div class="g-title font-black mb-3">📝 專業記帳與監控</div>
             <ul class="g-list text-sm">
-                <li><b>📅 日期智慧導航：</b>只要選好出發日期，系統會全自動比對 2025-2027 官方季節表，精準判定 ANA 淡旺季 (L/R/H)。</li>
-                <li><b>🔄 一鍵單程切換：</b>點選行程類型，可自由切換「來回」或「單程」，所需哩程將自動精算（已支援 ANA 最新單程兌換規則）。</li>
-                <li><b>☑️ 資產缺口比對：</b>勾選下方倉庫內的哩程，系統自動結算差額並亮起紅/綠燈。</li>
+                <li><b>記帳：</b>輸入消費後點擊記帳，紀錄將進入「明細」分頁。</li>
+                <li><b>沖帳：</b>明細支援單筆刪除，刪除後會自動退還卡片累積額度。</li>
+                <li><b>歸戶：</b>確認無誤後，至「監控」分頁點擊「一鍵進倉」，即可正式存入倉庫。</li>
             </ul>
-            <p class="text-sm mt-3 pt-3 mb-0 border-top border-dark border-opacity-10">⚠️ <b>提醒</b>：顯示數值僅供規劃參考，<b>實際位置狀態</b>與精確標準請以航空公司官網即時查詢為準。</p>
+        </div>
+        <div class="guide-slide p-4 mb-4 slide-terra">
+            <div class="g-badge bg-white/20 mb-2">v12.6 亮點</div><div class="g-title font-black mb-3">📍 全球雙向規劃</div>
+            <ul class="g-list text-sm">
+                <li><b>打破限制：</b>自由選擇<b>「🛫出發地」</b>與<b>「🛬目的地」</b>，支援全新「中港澳」區域。</li>
+                <li><b>台港戰神：</b>內建國泰航空最新標準（台港單程 7,000 哩起）。</li>
+                <li><b>一鍵對調：</b>點擊中間的<b>「⇄」</b>圖示，瞬間切換回程或外站出發，計算超直覺！</li>
+            </ul>
+        </div>
+        <div class="guide-slide p-4 mb-4 slide-clay">
+            <div class="g-badge bg-white/40 mb-2" style="color:#5e503f;">智慧科技</div><div class="g-title font-black mb-3">🔍 智慧試算與單程新制</div>
+            <ul class="g-list text-sm">
+                <li><b>📅 日期導航：</b>只要選好出發日期，系統自動比對 2025-2027 季節表，精準判定 ANA 淡旺季 (L/R/H)。</li>
+                <li><b>🔄 單程切換：</b>點擊開關即可折半哩程需求，全面支援 2025 年 ANA 國際線單程兌換新規。</li>
+            </ul>
+        </div>
+        <div class="guide-slide p-4 mb-4 slide-dusty">
+            <div class="g-badge bg-white/20 mb-2">權益提醒</div><div class="g-title font-black mb-3">☑️ 資產比對與免責</div>
+            <ul class="g-list text-sm">
+                <li><b>缺口比對：</b>勾選您想動用的「倉庫資產」，系統自動顯示尚缺哩程並亮起紅/綠燈。</li>
+            </ul>
+            <p class="text-sm mt-3 pt-3 mb-0 border-top border-white border-opacity-25">⚠️ <b>提醒</b>：顯示數值為官方標準預估值。請點擊「立即兌換」確認官網的<b>實際位置狀態</b>與精確標準。</p>
         </div>
         `;
         document.getElementById('guide-content').innerHTML = content; showModal('guideModal');
