@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5.1</title>
+  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5.2</title>
 
   <!-- 外部資源 -->
   <link href="[https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap)" rel="stylesheet">
@@ -12,6 +12,7 @@
   <style>
     /* =========================
        排版防禦系統 (Previewer Fallback CSS)
+       確保沒有 Bootstrap 時，版面依然完美對齊
        ========================= */
     .row { display: flex; flex-wrap: wrap; margin-left: -5px; margin-right: -5px; }
     .col-5 { width: 41.666%; padding-left: 5px; padding-right: 5px; box-sizing: border-box; }
@@ -268,7 +269,7 @@
     <div class="d-flex align-items-center">
       <div class="header-icon"><svg class="lucide"><use href="#icon-plane"/></svg></div>
       <div class="header-title">
-        <h5>TDC 航空累哩工具<br>v12.5.1</h5>
+        <h5>TDC 航空累哩工具<br>v12.5.2</h5>
         <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>專業會計版 + 終極規劃器</small>
       </div>
     </div>
@@ -630,7 +631,7 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.5.1 終極完全體 (Base64防護 + 教學補完)
+       TDC Miles Tool v12.5.2 業務邏輯精修版
        ========================= */
 
     // 隔離資料庫，保護 12.32 舊有資料
@@ -658,7 +659,10 @@
     
     const DEFAULT_BILLING = { hsbc:6, ctbc:15, taishin:20, other:1 };
     const LIVE_KEYWORDS = { 'dining':['餐廳','吃飯','外送','ubereats','foodpanda','燒肉','火鍋','麻辣','壽司','日式','居酒屋','餐酒館','酒吧','咖啡','甜點','牛排','鐵板燒','拉麵','茶六','屋馬','乾杯','buffet','王品','享鴨','夏慕尼','西堤','石二鍋','陶板屋','青花驕','饗賓','饗饗','開飯','瓦城','鼎泰豐','海底撈','金大鋤','築間','壽司郎','藏壽司','爭鮮','吉兆','明壽司','金色三麥','春大直','貳樓','涓豆腐','hooters','勝田','麥當勞','星巴克','必勝客','達美樂','富王','文公館','教父牛排','山海樓','鹽之華','牡丹','logy','inita','ikea','莫凡彼','貴族世家'], 'shop':['momo','pchome','蝦皮','shopee','amazon','ebay','露天','friday','gomaji','淘寶','uniqlo','zara','h&m','net','gu','nike','adidas','outlet','台北101','三井','微風','sogo','漢神','華泰','新光','skm','att','美麗華','南紡','統一時代','遠雄','京站','citylink','夢時代','lalaport','高島屋','中友','遠企','麗寶','比漾','大江','巨城','遠東','global mall','環球','義大','台茂','宏匯','義享','noke','大魯閣','明曜','bellavita','寶雅','無印良品','muji','屈臣氏','康是美','松本清','唐吉訶德'], 'entertainment':['新光影城','威秀','國賓','秀泰','環球影城','迪士尼','吉卜力','樂天世界','legoland','safari','兒童新樂園','x park','小人國','六福村','海洋公園','麗寶樂園','劍湖山','九族','尚順','義大遊樂','巧虎','動物園','海生館','奇美博物館','小叮噹','野柳','埔心','飛牛','頑皮世界','美術館','日月潭','太平山','阿里山','大雪山','墾丁','森林遊樂區'] };
-    const STRICT_ONLINE = ['flight_ci','flight_cx','flight_other','travel'];
+    
+    // 【業務邏輯修復】將 'travel' 從強制線上名單中剔除，把判定權還給使用者的實體卡選項
+    const STRICT_ONLINE = ['flight_ci','flight_cx','flight_other'];
+    
     const CTBC_BLOCK = ['全聯','px','全支付','7-11','711','全家','萊爾富','ok超商','繳費','etoro','wise','revolut','麥當勞','肯德基','漢堡王','摩斯'];
     const HSBC_BLOCK_BASE = ['全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','判決書','醫療','掛號','年費','手續費','賭博','麥當勞','肯德基'];
     const HSBC_LIVE_BLOCK = ['全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','判決書','醫療','掛號','年費','手續費','賭博'];
@@ -707,7 +711,7 @@
         'NA_E': { 
             name: '北美洲 - 東岸 (JFK)', 
             CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_BR, Y: 100000, C: 150000, F: -1 }, 
+            BR: { name: '長榮航空', route: '直飛为主', badge: 'badge-direct', linkB64: b64_BR, Y: 100000, C: 150000, F: -1 }, 
             CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 100000, C: 220000, F: 330000 }, 
             ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
             ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 60000, C: 95000, F: 135000 } 
@@ -1159,7 +1163,7 @@
     function updateUI() { renderList(); renderStatus(); }
     function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; showModal('customAlertModal'); }
 
-    // 【新增里程查詢教學 Slide 3】
+    // 【教學內容補強】包含里程查詢與試算的完整引導
     function openGuide() {
         const content = `
         <div class="guide-slide p-4 mb-4" style="background:var(--m-sage); color:white;">
