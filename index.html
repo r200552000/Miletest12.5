@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5.2</title>
+  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.6</title>
 
   <!-- 外部資源 -->
   <link href="[https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap)" rel="stylesheet">
@@ -12,7 +12,6 @@
   <style>
     /* =========================
        排版防禦系統 (Previewer Fallback CSS)
-       確保沒有 Bootstrap 時，版面依然完美對齊
        ========================= */
     .row { display: flex; flex-wrap: wrap; margin-left: -5px; margin-right: -5px; }
     .col-5 { width: 41.666%; padding-left: 5px; padding-right: 5px; box-sizing: border-box; }
@@ -60,7 +59,7 @@
     .lucide-fill { fill: currentColor; stroke: none; }
 
     /* =========================
-       CSS 樣式表 (保留 12.32 莫蘭迪美學)
+       CSS 樣式表 (保留 莫蘭迪美學)
        ========================= */
     :root {
       --bg-main: #fffdf9; --bg-card: #ffffff;
@@ -188,7 +187,7 @@
     .g-list li::before { content:'•'; position:absolute; left:0; font-weight:bold; }
 
     /* =========================
-       Sub-Tab (v12.5 規劃器專屬樣式)
+       v12.6 規劃器專屬樣式 (起終點雙下拉)
        ========================= */
     .sub-tab-btn { color: #64748b; font-family: var(--font-hand); transition: 0.3s; border: none; font-size: 0.9rem; padding: 10px 0; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .sub-tab-btn.active { background: #ffffff; color: var(--primary-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 50px; }
@@ -205,11 +204,11 @@
     .badge-direct { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
     .badge-transit { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
     
-    /* 純淨 HTML 跳轉按鈕 */
     .link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.75rem; padding: 6px 12px; border-radius: 50px; font-weight: bold; background: white; border: 1px solid #cbd5e1; color: #475569 !important; transition: 0.2s; cursor: pointer; font-family: var(--font-hand); text-decoration: none !important; }
     .status-enough .link-btn { border-color: #10b981; color: #059669 !important; }
     .status-short .link-btn { border-color: #f43f5e; color: #e11d48 !important; }
-    .link-btn:hover { background: #f8fafc; }
+
+    .swap-btn { background: white; border: 2px solid #e2e8f0; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; left: 50%; transform: translate(-50%, 8px); z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--primary); }
 
     /* Modal 終極防呆修復 */
     .modal-dialog { background: #fff; margin: 1.75rem auto; max-width: 500px; border-radius: 24px; padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; box-sizing: border-box; }
@@ -240,7 +239,7 @@
     <symbol id="icon-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-2 2 4 4 2-2-1-3 3-3 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></symbol>
     <symbol id="icon-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
     <symbol id="icon-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
-    <symbol id="icon-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></symbol>
+    <symbol id="icon-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5-2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></symbol>
     <symbol id="icon-ticket" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></symbol>
     <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
     <symbol id="icon-bank" viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></symbol>
@@ -262,6 +261,7 @@
     <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
     <symbol id="icon-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="icon-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></symbol>
+    <symbol id="icon-swap" viewBox="0 0 24 24"><path d="m7 16 3 3 3-3"/><path d="M10 5v14"/><path d="m17 8-3-3-3 3"/><path d="M14 19V5"/></symbol>
   </svg>
 
   <!-- Header -->
@@ -269,8 +269,8 @@
     <div class="d-flex align-items-center">
       <div class="header-icon"><svg class="lucide"><use href="#icon-plane"/></svg></div>
       <div class="header-title">
-        <h5>TDC 航空累哩工具<br>v12.5.2</h5>
-        <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>專業會計版 + 終極規劃器</small>
+        <h5>TDC 航空累哩工具<br>v12.6</h5>
+        <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>全球雙向矩陣版</small>
       </div>
     </div>
     <div class="d-flex gap-2">
@@ -335,7 +335,7 @@
                 <input type="number" id="fx-rate-input" class="form-control" placeholder="輸入匯率" inputmode="decimal" min="0" step="0.0001">
                 <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">TWD</span>
             </div>
-            <!-- 【核心防護：台銀 Base64 跳轉】杜絕 Markdown Parser 破壞 -->
+            <!-- 台銀 Base64 防 404 跳轉 -->
             <button onclick="window.open(atob('aHR0cHM6Ly9yYXRlLmJvdC5jb20udHcveHJ0P0xhbmc9emgtVFc='), '_blank')" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem; background:white; display:flex; align-items:center; justify-content:center;">
                 <svg class="lucide me-1"><use href="#icon-bank"/></svg> 查詢臺銀牌告匯率
             </button>
@@ -375,7 +375,6 @@
           </div>
         </div>
         
-        <!-- Cost Summary -->
         <div class="d-flex justify-content-between align-items-center mb-3 px-2">
           <span class="result-tag" id="scenario-tag">一般消費</span>
           <div class="text-end lh-1" id="fx-info" style="display:none;"></div>
@@ -397,16 +396,14 @@
         </div>
     </div>
 
-    <!-- Page 3: Status & Limits -->
+    <!-- Page 3: Status & Monitoring -->
     <div id="page-status" class="page-section" style="display:none;">
       <div class="card-box">
         <h5 class="mb-3 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-chart"/></svg>本期總帳 (Dashboard)</h5>
         <div id="status-container"></div>
         <div class="mt-3 d-flex gap-2">
            <button onclick="clearCurrentStats()" class="btn-outline-danger flex-grow-1 font-hand fw-bold bg-white" style="border-width:2px; padding:8px; border-radius:50px;">全部重置</button>
-           <button onclick="batchImport()" class="btn-action flex-grow-1 font-hand py-1 mt-0" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); border:none; box-shadow:2px 2px 0 #047857;">
-             <svg class="lucide me-1"><use href="#icon-rocket"/></svg> 一鍵進倉
-           </button>
+           <button onclick="batchImport()" class="btn-action flex-grow-1 font-hand py-1 mt-0" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); border:none; box-shadow:2px 2px 0 #047857;">一鍵進倉</button>
         </div>
       </div>
       <div class="card-box mt-3" style="background:#fffbeb; border-color:#fde68a;">
@@ -415,22 +412,17 @@
       </div>
     </div>
 
-    <!-- Page 4: Warehouse (Sub-Tabs 融合規劃器) -->
+    <!-- Page 4: Warehouse & Planner -->
     <div id="page-warehouse" class="page-section" style="display:none;">
-        
         <div class="sub-tab-container mb-3 d-flex p-1" style="background: #e2e8f0; border-radius: 50px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-            <button class="flex-grow-1 fw-bold sub-tab-btn active" onclick="switchWarehouseTab('manage')" id="tab-btn-manage">
-                <svg class="lucide me-1"><use href="#icon-box"/></svg> 資產管理
-            </button>
-            <button class="flex-grow-1 fw-bold sub-tab-btn" onclick="switchWarehouseTab('planner')" id="tab-btn-planner">
-                <svg class="lucide me-1"><use href="#icon-map"/></svg> 兌換試算
-            </button>
+            <button class="flex-grow-1 fw-bold sub-tab-btn active" onclick="switchWarehouseTab('manage')" id="tab-btn-manage"><svg class="lucide me-1"><use href="#icon-box"/></svg> 資產管理</button>
+            <button class="flex-grow-1 fw-bold sub-tab-btn" onclick="switchWarehouseTab('planner')" id="tab-btn-planner"><svg class="lucide me-1"><use href="#icon-map"/></svg> 兌換試算</button>
         </div>
 
         <div id="warehouse-view-manage">
             <div class="input-block-card">
                 <div class="input-block-title text-primary"><svg class="lucide me-2"><use href="#icon-plane"/></svg> 存入航空哩程 (原生)</div>
-                <div class="mb-3"><label class="form-label small mb-1 fw-bold">航司名稱</label><input id="native-airline-name" class="form-control" placeholder="例如: 華航, 長榮 (建議用簡稱)"></div>
+                <div class="mb-3"><label class="form-label small mb-1 fw-bold">航司名稱</label><input id="native-airline-name" class="form-control" placeholder="例如: 華航, 長榮"></div>
                 <div class="mb-3"><label class="form-label small mb-1 fw-bold">目前持有哩程</label><input id="native-current" type="number" class="form-control" placeholder="0"></div>
                 <button onclick="addNativeAsset()" class="btn-outline-primary w-100">存入航空帳戶</button>
             </div>
@@ -451,94 +443,89 @@
                         <input id="trans-unit-miles" type="number" class="form-control" placeholder="1000" min="0">
                         <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">哩</span>
                     </div>
-                    <div><label class="small text-muted fw-bold">滿額加贈 (選填)</label>
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-right: none;">每</span>
-                            <input id="trans-bonus-thres" type="number" class="form-control" placeholder="60000" min="0">
-                            <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none; border-right: none;">點贈</span>
-                            <input id="trans-bonus-val" type="number" class="form-control" placeholder="5000" min="0">
-                            <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">哩</span>
-                        </div>
-                    </div>
                 </div>
                 <button onclick="addTransferAsset()" class="btn-outline-primary w-100" style="color:#b45309; border-color:#d97706;">存入轉點資產</button>
             </div>
             <div id="warehouse-list"></div>
         </div>
 
-        <!-- 視圖 B: 兌換規劃器 -->
-        <div id="warehouse-view-planner" style="display:none; animation: fadeIn 0.3s ease;">
-            <div class="card-box" style="background: linear-gradient(to bottom, #eff6ff, #ffffff);">
-              <h5 class="mb-1 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-map"/></svg>設定兌換目標</h5>
-              <div class="small text-muted mb-3 font-hand">* 提示：台北與高雄出發標準相同；轉機距離已內建精算。</div>
+        <!-- 視圖 B: 全球雙向規劃器 -->
+        <div id="warehouse-view-planner" style="display:none;">
+            <div class="card-box" style="background: linear-gradient(to bottom, #eff6ff, #ffffff); position: relative;">
+              <h5 class="mb-1 text-primary d-flex align-items-center"><svg class="lucide me-2"><use href="#icon-map"/></svg>設定全球兌換目標</h5>
               
-              <div class="row mb-2">
-                  <div class="col-6">
-                    <label class="form-label">目的地 (全台出發)</label>
-                    <select id="planner-dest" class="form-select" onchange="runPlannerCalc()">
-                      <option value="JP_KR">🌸 東北亞 (日韓)</option>
-                      <option value="SE_ASIA">🥥 東南亞</option>
-                      <option value="NA_W">🗽 北美 - 西岸</option>
-                      <option value="NA_E">🍎 北美 - 東岸</option>
-                      <option value="EU">🏰 歐洲</option>
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <label class="form-label">選擇艙等</label>
-                    <select id="planner-class" class="form-select" onchange="runPlannerCalc()">
-                      <option value="Y">💺 經濟艙</option>
-                      <option value="C">🥂 商務艙</option>
-                      <option value="F">👑 頭等艙</option>
-                    </select>
-                  </div>
+              <div class="mb-3 mt-3">
+                <div style="position:relative;">
+                  <label class="form-label small fw-bold">🛫 出發地</label>
+                  <select id="planner-from" class="form-select mb-2" onchange="runPlannerCalc()">
+                    <option value="TW">🇹🇼 台灣</option>
+                    <option value="NE_ASIA">🌸 東北亞 (日韓)</option>
+                    <option value="SE_ASIA">🥥 東南亞</option>
+                    <option value="NA_W">🗽 北美西岸</option>
+                    <option value="NA_E">🍎 北美東岸</option>
+                    <option value="EU">🏰 歐洲</option>
+                  </select>
+                  <button class="swap-btn" onclick="swapPlannerDest()"><svg class="lucide"><use href="#icon-swap"/></svg></button>
+                  <label class="form-label small fw-bold">🛬 目的地</label>
+                  <select id="planner-to" class="form-select" onchange="runPlannerCalc()">
+                    <option value="TW">🇹🇼 台灣</option>
+                    <option value="NE_ASIA" selected>🌸 東北亞 (日韓)</option>
+                    <option value="SE_ASIA">🥥 東南亞</option>
+                    <option value="NA_W">🗽 北美西岸</option>
+                    <option value="NA_E">🍎 北美東岸</option>
+                    <option value="EU">🏰 歐洲</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="mb-1">
-                  <label class="form-label text-muted small d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-info"/></svg> ANA 自家淡旺季設定</label>
-                  <select id="planner-ana-season" class="form-select" style="height: 40px; font-size: 0.9rem;" onchange="runPlannerCalc()">
-                      <option value="L">❄️ 淡季 (Low Season)</option>
-                      <option value="R" selected>🍃 一般 (Regular Season)</option>
-                      <option value="H">🔥 旺季 (High Season)</option>
+              <div class="row mb-2">
+                <div class="col-6">
+                  <label class="form-label small fw-bold">📅 出發日期</label>
+                  <input type="date" id="planner-date" class="form-select" style="height:44px;" onchange="runPlannerCalc()">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold">選擇艙等</label>
+                  <select id="planner-class" class="form-select" onchange="runPlannerCalc()">
+                    <option value="Y">💺 經濟艙</option>
+                    <option value="C">🥂 商務艙</option>
+                    <option value="F">👑 頭等艙</option>
                   </select>
-                  <div class="small font-hand mt-1" style="color:#94a3b8;" id="planner-ana-hint">* 提示：星盟夥伴與頭等艙皆為全年固定標準，無淡旺季之分。</div>
+                </div>
+              </div>
+
+              <div class="switch-group mb-2" onclick="togglePlannerTrip()">
+                <span class="switch-label fw-bold"><svg class="lucide me-1"><use href="#icon-rotate"/></svg> 行程類型：<span id="trip-label">來回 (Round-trip)</span></span>
+                <input class="form-check-input" type="checkbox" id="planner-trip-type" checked>
+              </div>
+
+              <div class="small font-hand mt-2" style="color:#94a3b8;" id="planner-ana-hint">
+                * 系統將依日期自動判定 ANA 淡旺季 (L/R/H)。
               </div>
             </div>
 
             <div class="mb-3 px-1">
                 <h6 class="fw-bold text-secondary mb-2 d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-box"/></svg>勾選要動用的倉庫資源</h6>
-                <div id="planner-asset-container">
-                    <!-- 動態載入資產卡片 -->
-                </div>
+                <div id="planner-asset-container"></div>
             </div>
 
-            <div id="planner-results-container">
-                <!-- 動態載入比對結果 -->
+            <div id="planner-results-container"></div>
+            <div class="p-3 text-center">
+               <div class="small text-muted font-hand mb-2">ℹ️ 本系統季節標準目前適用至 2027 年 1 月。</div>
+               <div class="small text-danger fw-bold" style="line-height:1.4;">⚠️ 提醒：顯示之哩程數為規劃參考之預估值，<br>實際位置狀態與精確標準請以航空公司官網即時查詢為準。</div>
             </div>
         </div>
-
     </div>
-
   </div>
 
   <!-- Bottom Nav -->
   <div class="nav-bottom">
     <button class="nav-item active" onclick="switchPage('calc', this)"><svg class="lucide"><use href="#icon-calc"/></svg>計算</button>
-    <button class="nav-item" onclick="switchPage('list', this)">
-        <div style="position:relative;">
-            <svg class="lucide"><use href="#icon-list"/></svg>
-            <div id="nav-badge-list" class="nav-badge" style="display:none;">0</div>
-        </div>
-        明細
-    </button>
+    <button class="nav-item" onclick="switchPage('list', this)"><div style="position:relative;"><svg class="lucide"><use href="#icon-list"/></svg><div id="nav-badge-list" class="nav-badge" style="display:none;">0</div></div>明細</button>
     <button class="nav-item" onclick="switchPage('status', this)"><svg class="lucide"><use href="#icon-chart"/></svg>監控</button>
     <button class="nav-item" onclick="switchPage('warehouse', this)"><svg class="lucide"><use href="#icon-warehouse"/></svg>倉庫</button>
   </div>
 
-  <!-- =========================
-       客製化安全防呆 Modal 系統
-       ========================= -->
-       
-  <!-- 1. 客製化刪除/重置確認視窗 -->
+  <!-- 客製化安全防呆 Modal 系統 -->
   <div class="modal fade" id="customConfirmModal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
@@ -554,7 +541,6 @@
     </div>
   </div>
 
-  <!-- 其他常規 Modal -->
   <div class="modal fade" id="correctionModal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background:#fff; border-radius:24px; padding:20px;">
@@ -631,17 +617,16 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.5.2 業務邏輯精修版
+       TDC Miles Tool v12.6 全球雙向矩陣版
        ========================= */
-
-    // 隔離資料庫，保護 12.32 舊有資料
-    const DB_KEY = 'MILES_APP_V12_5_ISOLATED'; 
-    const RULES_KEY = 'MILES_APP_RULES_V12_5';
+    const DB_KEY = 'MILES_APP_V12_6_ISOLATED'; 
+    const RULES_KEY = 'MILES_APP_RULES_V12_6';
     let correctionTarget = { id: null, name: null };
     let editAssetTargetIdx = null;
     let plannerSelectedAssets = new Set();
     let pendingConfirmCallback = null;
-    
+
+    // --- 核心規則 ---
     const BUILTIN_DEFS = [
       { id: 'hsbc_live', name: '匯豐 Live+', default: true },
       { id: 'ctbc_ci_inf', name: '中信 華航璀璨', default: false },
@@ -660,9 +645,7 @@
     const DEFAULT_BILLING = { hsbc:6, ctbc:15, taishin:20, other:1 };
     const LIVE_KEYWORDS = { 'dining':['餐廳','吃飯','外送','ubereats','foodpanda','燒肉','火鍋','麻辣','壽司','日式','居酒屋','餐酒館','酒吧','咖啡','甜點','牛排','鐵板燒','拉麵','茶六','屋馬','乾杯','buffet','王品','享鴨','夏慕尼','西堤','石二鍋','陶板屋','青花驕','饗賓','饗饗','開飯','瓦城','鼎泰豐','海底撈','金大鋤','築間','壽司郎','藏壽司','爭鮮','吉兆','明壽司','金色三麥','春大直','貳樓','涓豆腐','hooters','勝田','麥當勞','星巴克','必勝客','達美樂','富王','文公館','教父牛排','山海樓','鹽之華','牡丹','logy','inita','ikea','莫凡彼','貴族世家'], 'shop':['momo','pchome','蝦皮','shopee','amazon','ebay','露天','friday','gomaji','淘寶','uniqlo','zara','h&m','net','gu','nike','adidas','outlet','台北101','三井','微風','sogo','漢神','華泰','新光','skm','att','美麗華','南紡','統一時代','遠雄','京站','citylink','夢時代','lalaport','高島屋','中友','遠企','麗寶','比漾','大江','巨城','遠東','global mall','環球','義大','台茂','宏匯','義享','noke','大魯閣','明曜','bellavita','寶雅','無印良品','muji','屈臣氏','康是美','松本清','唐吉訶德'], 'entertainment':['新光影城','威秀','國賓','秀泰','環球影城','迪士尼','吉卜力','樂天世界','legoland','safari','兒童新樂園','x park','小人國','六福村','海洋公園','麗寶樂園','劍湖山','九族','尚順','義大遊樂','巧虎','動物園','海生館','奇美博物館','小叮噹','野柳','埔心','飛牛','頑皮世界','美術館','日月潭','太平山','阿里山','大雪山','墾丁','森林遊樂區'] };
     
-    // 【業務邏輯修復】將 'travel' 從強制線上名單中剔除，把判定權還給使用者的實體卡選項
-    const STRICT_ONLINE = ['flight_ci','flight_cx','flight_other'];
-    
+    const STRICT_ONLINE = ['flight_ci','flight_cx','flight_other']; 
     const CTBC_BLOCK = ['全聯','px','全支付','7-11','711','全家','萊爾富','ok超商','繳費','etoro','wise','revolut','麥當勞','肯德基','漢堡王','摩斯'];
     const HSBC_BLOCK_BASE = ['全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','判決書','醫療','掛號','年費','手續費','賭博','麥當勞','肯德基'];
     const HSBC_LIVE_BLOCK = ['全聯','px','7-11','711','全家','萊爾富','ok超商','繳費','判決書','醫療','掛號','年費','手續費','賭博'];
@@ -676,54 +659,24 @@
         'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
     };
 
-    // Base64 加密法：100% 免疫聊天平台網址掃描機器人破壞
+    // --- 全向矩陣與 Base64 防禦網 ---
     const b64_CI = 'aHR0cHM6Ly93d3cuY2hpbmEtYWlybGluZXMuY29tL3R3L3poL21lbWJlci9yZWRlZW0tYWlybGluZS1taWxlcy9yZXdhcmQtdGlja2V0';
     const b64_BR = 'aHR0cHM6Ly93d3cuZXZhYWlyLmNvbS96aC10dy9pbmZpbml0eS1taWxlYWdlbGFuZHMvbWlsZWFnZS1hd2FyZC1wcm9ncmFtL21pbGVhZ2UtcmVkZW1wdGlvbi9hd2FyZC10aWNrZXQvZXZhLXVuaS1haXIv';
     const b64_CX = 'aHR0cHM6Ly93d3cuY2F0aGF5cGFjaWZpYy5jb20vY3gvemhfVFcuaHRtbA==';
-    const b64_ANA_self = 'aHR0cHM6Ly93d3cuYW5hLmNvLmpwL3poL3R3L2FtYy9pbnRlcm5hdGlvbmFsLWZsaWdodC1hd2FyZHMv';
-    const b64_ANA_star = 'aHR0cHM6Ly93d3cuYW5hLmNvLmpwL3poL3R3L2FtYy9wYXJ0bmVyLWZsaWdodC1hd2FyZHMv';
+    const b64_ANA = 'aHR0cHM6Ly93d3cuYW5hLmNvLmpwL3poL3R3L2FtYy9pbnRlcm5hdGlvbmFsLWZsaWdodC1hd2FyZHMv';
 
-    const AWARD_CHARTS = {
-        'JP_KR': { 
-            name: '東北亞 (日/韓)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 35000, C: 60000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_BR, Y: 35000, C: 50000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 20000, C: 56000, F: 86000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:17000, R:20000, H:23000 }, C: { L:35000, R:40000, H:43000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 20000, C: 43000, F: -1 } 
-        },
-        'SE_ASIA': { 
-            name: '東南亞', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 35000, C: 60000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_BR, Y: 35000, C: 50000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 20000, C: 56000, F: 86000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:30000, R:35000, H:38000 }, C: { L:55000, R:60000, H:63000 }, F: { L:-1, R:-1, H:-1 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 35000, C: 60000, F: -1 } 
-        },
-        'NA_W': { 
-            name: '北美洲 - 西岸 (LAX/SFO)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_BR, Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 76000, C: 168000, F: 250000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 60000, C: 95000, F: 135000 } 
-        },
-        'NA_E': { 
-            name: '北美洲 - 東岸 (JFK)', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛为主', badge: 'badge-direct', linkB64: b64_BR, Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 100000, C: 220000, F: 330000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:45000, R:55000, H:60000 }, C: { L:80000, R:90000, H:95000 }, F: { L:150000, R:150000, H:150000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 60000, C: 95000, F: 135000 } 
-        },
-        'EU': { 
-            name: '歐洲', 
-            CI: { name: '中華航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_CI, Y: 100000, C: 160000, F: -1 }, 
-            BR: { name: '長榮航空', route: '直飛為主', badge: 'badge-direct', linkB64: b64_BR, Y: 100000, C: 150000, F: -1 }, 
-            CX: { name: '國泰航空', route: '經 HKG 轉機', badge: 'badge-transit', linkB64: b64_CX, Y: 76000, C: 168000, F: 250000 }, 
-            ANA: { name: 'ANA (自家)', route: '經 NRT/HND', badge: 'badge-transit', linkB64: b64_ANA_self, Y: { L:55000, R:60000, H:65000 }, C: { L:90000, R:95000, H:100000 }, F: { L:165000, R:165000, H:165000 } }, 
-            ANA_STAR: { name: 'ANA (換星盟)', route: '直飛為主', badge: 'badge-direct', linkB64: b64_ANA_star, Y: 65000, C: 115000, F: 165000 } 
-        }
+    const MATRIX_DATA = {
+        'TW_NE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:17000,R:20000,H:23000}, C:{L:35000,R:40000,H:43000}} },
+        'TW_SE_ASIA': { CI:{Y:35000, C:60000}, BR:{Y:35000, C:50000}, CX:{Y:20000, C:56000, F:86000}, NH:{Y:{L:30000,R:35000,H:38000}, C:{L:55000,R:60000,H:63000}} },
+        'TW_NA_W': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:76000, C:168000, F:250000}, NH:{Y:{L:45000,R:55000,H:60000}, C:{L:80000,R:90000,H:95000}, F:150000} },
+        'TW_NA_E': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:100000, C:220000, F:330000}, NH:{Y:{L:45000,R:55000,H:60000}, C:{L:80000,R:90000,H:95000}, F:150000} },
+        'TW_EU': { CI:{Y:100000, C:160000}, BR:{Y:100000, C:150000}, CX:{Y:76000, C:168000, F:250000}, NH:{Y:{L:55000,R:60000,H:65000}, C:{L:90000,R:95000,H:100000}, F:165000} },
+        'NE_ASIA_NA_W': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
+        'NE_ASIA_NA_E': { NH:{Y:{L:40000,R:50000,H:55000}, C:{L:75000,R:85000,H:90000}, F:150000} },
+        'NE_ASIA_EU': { NH:{Y:{L:45000,R:55000,H:60000}, C:{L:85000,R:90000,H:95000}, F:165000} },
+        'SE_ASIA_NA_W': { NH:{Y:{L:55000,R:65000,H:70000}, C:{L:100000,R:110000,H:115000}} },
+        'SE_ASIA_NA_E': { NH:{Y:{L:55000,R:65000,H:70000}, C:{L:100000,R:110000,H:115000}} },
+        'SE_ASIA_EU': { NH:{Y:{L:65000,R:70000,H:75000}, C:{L:110000,R:115000,H:120000}} }
     };
 
     function loadDB() {
@@ -907,7 +860,6 @@
         }
     }
 
-    // --- 客製化安全刪除邏輯 ---
     function delTx(monthKey, txId) {
         showCustomConfirm('確定要刪除這筆紀錄嗎？<br><small class="text-muted">（同時會退還該卡片的累積額度）</small>', () => {
             const db = loadDB(); const rec = db.records[monthKey][txId];
@@ -951,11 +903,25 @@
         if(id==='hsbc_live') return 29600; if(id==='ctbc_ci_inf') return 600000; if(id==='taishin_cx') return 1000000; if(id==='ctbc_ci') return 1440000; return 999999; 
     }
 
+    // --- 導覽與初始化 ---
     function switchWarehouseTab(view) {
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(`tab-btn-${view}`).classList.add('active');
-        if (view === 'manage') { document.getElementById('warehouse-view-manage').style.display = 'block'; document.getElementById('warehouse-view-planner').style.display = 'none'; renderWarehouse(); } 
-        else { document.getElementById('warehouse-view-manage').style.display = 'none'; document.getElementById('warehouse-view-planner').style.display = 'block'; renderPlannerAssets(); runPlannerCalc(); }
+        if (view === 'manage') { 
+            document.getElementById('warehouse-view-manage').style.display = 'block'; 
+            document.getElementById('warehouse-view-planner').style.display = 'none'; 
+            renderWarehouse(); 
+        } else { 
+            document.getElementById('warehouse-view-manage').style.display = 'none'; 
+            document.getElementById('warehouse-view-planner').style.display = 'block'; 
+            
+            // 安全的日期初始化
+            const dateInput = document.getElementById('planner-date');
+            if (!dateInput.value) { dateInput.value = new Date().toISOString().split('T')[0]; }
+            
+            renderPlannerAssets(); 
+            runPlannerCalc(); 
+        }
     }
 
     function renderWarehouse() {
@@ -1003,15 +969,9 @@
         const db = loadDB(); db.warehouse.push({ type: 'transfer', targetAirline: target, name: src, current: val, unitPoints: uP, unitMiles: uM }); saveDB(db); renderWarehouse(); document.getElementById('trans-source-name').value=''; document.getElementById('trans-current').value='';
     }
 
-    function delAsset(idx) { 
-        showCustomConfirm('確定要刪除這項資產嗎？', () => { 
-            const db = loadDB(); db.warehouse.splice(idx, 1); plannerSelectedAssets.clear(); saveDB(db); renderWarehouse(); 
-        }); 
-    }
-    
+    function delAsset(idx) { showCustomConfirm('確定要刪除這項資產嗎？', () => { const db = loadDB(); db.warehouse.splice(idx, 1); plannerSelectedAssets.clear(); saveDB(db); renderWarehouse(); }); }
     function openEditAsset(idx) { editAssetTargetIdx = idx; const db = loadDB(); const asset = db.warehouse[idx]; document.getElementById('edit-asset-name').innerText = asset.name; document.getElementById('edit-asset-val').value = asset.current; showModal('editAssetModal'); }
     function saveAssetEdit() { const val = parseFloat(document.getElementById('edit-asset-val').value); if(isNaN(val)) return showAlert('請輸入有效數值'); const db = loadDB(); db.warehouse[editAssetTargetIdx].current = val; saveDB(db); renderWarehouse(); hideModal('editAssetModal'); }
-
     function batchImport() {
         showCustomConfirm('確定將明細全部存入倉庫？', () => {
             const db = loadDB(); const now = new Date(); const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
@@ -1076,48 +1036,88 @@
         });
     }
 
-    function runPlannerCalc() {
-        const destKey = document.getElementById('planner-dest').value; const classKey = document.getElementById('planner-class').value; const anaSeason = document.getElementById('planner-ana-season').value;
-        const chartData = AWARD_CHARTS[destKey]; if(!chartData) return;
+    // --- 日期對應季節引擎 ---
+    function checkAnaSeason(dateStr) {
+        if (!dateStr) return 'R';
+        const d = new Date(dateStr); const m = d.getMonth() + 1; const day = d.getDate();
+        const year = d.getFullYear(); const dateNum = m * 100 + day; 
         
-        const anaHint = document.getElementById('planner-ana-hint');
-        if(classKey === 'F') { anaHint.innerHTML = "ℹ️ 提示：頭等艙皆為全年固定標準，無淡旺季之分。"; anaHint.style.color = "#d97706"; }
-        else { anaHint.innerHTML = "* 提示：星盟夥伴為全年固定標準，無淡旺季之分。"; anaHint.style.color = "#94a3b8"; }
+        if (year === 2026) {
+            if ((dateNum >= 106 && dateNum <= 228) || (dateNum >= 401 && dateNum <= 428)) return 'L';
+            if ((dateNum >= 101 && dateNum <= 103) || (dateNum >= 429 && dateNum <= 509) || (dateNum >= 716 && dateNum <= 823) || (dateNum >= 1219 && dateNum <= 1231)) return 'H';
+            return 'R';
+        }
+        if (year === 2025) {
+            if ((dateNum >= 104 && dateNum <= 127) || (dateNum >= 401 && dateNum <= 423) || (dateNum >= 1201 && dateNum <= 1214)) return 'L';
+            if ((dateNum >= 101 && dateNum <= 103) || (dateNum >= 424 && dateNum <= 511) || (dateNum >= 718 && dateNum <= 824) || (dateNum >= 1215 && dateNum <= 1231)) return 'H';
+            return 'R';
+        }
+        if (year === 2027) {
+            if (dateNum >= 106 && dateNum <= 228) return 'L';
+            if (dateNum >= 101 && dateNum <= 103) return 'H';
+            return 'R';
+        }
+        return 'R';
+    }
+
+    function swapPlannerDest() { const f = document.getElementById('planner-from'); const t = document.getElementById('planner-to'); const tmp = f.value; f.value = t.value; t.value = tmp; runPlannerCalc(); }
+    function togglePlannerTrip() { const cb = document.getElementById('planner-trip-type'); cb.checked = !cb.checked; document.getElementById('trip-label').innerText = cb.checked ? '來回 (Round-trip)' : '單程 (One-way)'; runPlannerCalc(); }
+
+    function runPlannerCalc() {
+        const from = document.getElementById('planner-from').value;
+        const to = document.getElementById('planner-to').value;
+        const date = document.getElementById('planner-date').value;
+        const cls = document.getElementById('planner-class').value;
+        const isRT = document.getElementById('planner-trip-type').checked;
+        const con = document.getElementById('planner-results-container');
+        con.innerHTML = '';
+
+        if (from === to) { con.innerHTML = '<div class="text-center py-4 text-muted font-hand fw-bold">起終點相同，不需哩程</div>'; return; }
+
+        const season = checkAnaSeason(date);
+        const combo1 = `${from}_${to}`, combo2 = `${to}_${from}`;
+        const data = MATRIX_DATA[combo1] || MATRIX_DATA[combo2];
+
+        if (!data) { con.innerHTML = '<div class="text-center py-4 text-muted font-hand">⚠️ 目前尚未內建此跨區航線的精算數據<br>請改查閱官網。</div>'; return; }
 
         const db = loadDB(); let available = { CI: 0, BR: 0, CX: 0, ANA: 0 };
         plannerSelectedAssets.forEach(idx => { const asset = db.warehouse[idx]; if(!asset) return; const group = parseAirlineGroup(asset.targetAirline); if(available[group] !== undefined) { available[group] += Math.floor(asset.current * (asset.unitMiles / asset.unitPoints)); } });
-        const con = document.getElementById('planner-results-container'); con.innerHTML = '';
 
-        const createResultCard = (airlineKey, data, requiredMiles, availMiles) => {
-            if(requiredMiles === -1) {
+        const createCard = (airlineKey, name, b64, val, badgeStr) => {
+            if (!val) return '';
+            let required = (typeof val === 'number') ? val : (val[cls] || -1);
+            if (typeof required === 'object') required = required[season];
+            
+            if (required === -1) {
                 return `
                 <div class="planner-result-card" style="background:#f8fafc; border-color:#e2e8f0; opacity:0.8;">
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                        <div class="fw-bold text-dark fs-6 d-flex align-items-center">${data.name} <span class="route-badge ${data.badge}">${data.route}</span></div>
+                        <div class="fw-bold text-dark fs-6 d-flex align-items-center">${name} <span class="route-badge ${badgeStr==='直飛為主'?'badge-direct':'badge-transit'}">${badgeStr}</span></div>
                         <div class="fw-bold font-hand fs-5 text-muted">無常規艙等</div>
                     </div>
                 </div>`;
             }
-
-            const isEnough = availMiles >= requiredMiles && requiredMiles > 0;
-            const pct = requiredMiles > 0 ? Math.min(100, (availMiles / requiredMiles) * 100) : 0;
-            const statusHtml = isEnough ? `<span class="text-success d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-check-c"/></svg> 可兌換</span>` : `<span class="text-danger">尚缺 ${ (requiredMiles - availMiles).toLocaleString() }</span>`;
             
-            // 前端即時解碼 Base64 網址
-            const decodedUrl = atob(data.linkB64);
+            // 單程計算邏輯
+            if (!isRT) required = Math.trunc(required / 2);
+            
+            const availMiles = available[airlineKey] || 0;
+            const isEnough = availMiles >= required && required > 0;
+            const pct = required > 0 ? Math.min(100, (availMiles / required) * 100) : 0;
+            const statusHtml = isEnough ? `<span class="text-success d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-check-c"/></svg> 可兌換</span>` : `<span class="text-danger">尚缺 ${ (required - availMiles).toLocaleString() }</span>`;
             
             return `
             <div class="planner-result-card ${isEnough ? 'status-enough' : 'status-short'}">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <div class="fw-bold text-dark fs-6 d-flex align-items-center">${data.name} <span class="route-badge ${data.badge}">${data.route}</span></div>
+                    <div class="fw-bold text-dark fs-6 d-flex align-items-center">${name} <span class="route-badge ${badgeStr==='直飛為主'?'badge-direct':'badge-transit'}">${badgeStr}</span></div>
                     <div class="fw-bold font-hand fs-5">${statusHtml}</div>
                 </div>
                 <div class="d-flex justify-content-between align-items-end mt-2">
                     <div class="text-muted small fw-bold font-hand">
-                        <div>標準: ${requiredMiles.toLocaleString()}</div>
+                        <div>標準: ${required.toLocaleString()}</div>
                         <div>已選: ${availMiles.toLocaleString()}</div>
                     </div>
-                    <a href="${decodedUrl}" target="_blank" rel="noopener noreferrer" class="link-btn">
+                    <a href="#" onclick="window.open(atob('${b64}'), '_blank'); return false;" class="link-btn">
                         <svg class="lucide" style="font-size:0.9em;"><use href="#icon-external"/></svg> 立即兌換
                     </a>
                 </div>
@@ -1125,17 +1125,20 @@
             </div>`;
         };
 
-        con.innerHTML += createResultCard('CI', chartData.CI, chartData.CI[classKey], available.CI);
-        con.innerHTML += createResultCard('BR', chartData.BR, chartData.BR[classKey], available.BR);
-        con.innerHTML += createResultCard('CX', chartData.CX, chartData.CX[classKey], available.CX);
+        if(data.CI) con.innerHTML += createCard('CI', '中華航空', b64_CI, data.CI, '直飛為主');
+        if(data.BR) con.innerHTML += createCard('BR', '長榮航空', b64_BR, data.BR, '直飛為主');
+        if(data.CX) con.innerHTML += createCard('CX', '國泰航空', b64_CX, data.CX, '經 HKG 轉機');
         
-        const anaSelfReq = classKey === 'F' ? (chartData.ANA.F[anaSeason] || chartData.ANA.F.R) : chartData.ANA[classKey][anaSeason];
-        let anaSelfName = chartData.ANA.name;
-        if(classKey !== 'F') anaSelfName += ` <span class="route-badge badge-transit" style="margin-left:4px;">${anaSeason === 'L' ? '淡季' : anaSeason === 'H' ? '旺季' : '一般'}</span>`;
-        const anaSelfData = { ...chartData.ANA, name: anaSelfName };
-        con.innerHTML += createResultCard('ANA', anaSelfData, anaSelfReq, available.ANA);
-        
-        con.innerHTML += createResultCard('ANA_STAR', chartData.ANA_STAR, chartData.ANA_STAR[classKey], available.ANA);
+        if(data.NH) {
+            let anaSelfName = 'ANA (自家)';
+            let seasonBadge = season === 'L' ? '淡季' : season === 'H' ? '旺季' : '一般';
+            if(cls !== 'F') anaSelfName += ` <span class="route-badge badge-transit" style="margin-left:4px;">${seasonBadge}</span>`;
+            con.innerHTML += createCard('ANA', anaSelfName, b64_ANA, data.NH, '經 NRT/HND');
+            
+            let starReq = data.NH[cls];
+            if(typeof starReq === 'object') starReq = starReq['R'];
+            con.innerHTML += createCard('ANA', 'ANA (換星盟)', b64_ANA, starReq, '直飛為主');
+        }
     }
 
     /* =========================
@@ -1163,7 +1166,7 @@
     function updateUI() { renderList(); renderStatus(); }
     function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; showModal('customAlertModal'); }
 
-    // 【教學內容補強】包含里程查詢與試算的完整引導
+    // 【全新 v12.6 教學文案寫入】
     function openGuide() {
         const content = `
         <div class="guide-slide p-4 mb-4" style="background:var(--m-sage); color:white;">
@@ -1171,17 +1174,17 @@
             <ul class="g-list text-sm"><li><b>Step 1 計算：</b>輸入金額與匯率，自動比拚。</li><li><b>Step 2 核對：</b>記帳後進入「明細」，可隨時刪除或沖帳。</li><li><b>Step 3 進倉：</b>確認無誤後至「監控」一鍵歸戶。</li></ul>
         </div>
         <div class="guide-slide p-4 mb-4" style="background:var(--m-terra); color:white;">
-            <div class="g-badge bg-white/20 mb-2">進階應用</div><div class="g-title font-black mb-3">📍 兌換規劃器</div>
-            <p class="text-sm mb-0">在下方選單點擊<b>【倉庫】</b>，並切換上方的<b>【兌換試算】</b>標籤。系統已內建四大航司（華航、長榮、國泰、ANA）2026 最新兌換標準。</p>
+            <div class="g-badge bg-white/20 mb-2">進階應用</div><div class="g-title font-black mb-3">📍 全球雙向規劃器</div>
+            <p class="text-sm mb-0">打破舊版限制！現在您可以在「兌換試算」中，將<b>「🛫 出發地」</b>與<b>「🛬 目的地」</b>分開選擇。<br><br>除了台灣出發/回程，系統更內建了『日本 ↔ 北美/歐洲』等跨區互飛的精算數據。點擊中間的<b>「⇄」</b>按鈕即可一鍵對調航向！</p>
         </div>
         <div class="guide-slide p-4 mb-4" style="background:var(--m-clay); color:#5e503f;">
-            <div class="g-badge bg-white/40 mb-2" style="color:#5e503f;">操作教學</div><div class="g-title font-black mb-3">🔍 如何比對資產？</div>
+            <div class="g-badge bg-white/40 mb-2" style="color:#5e503f;">操作教學</div><div class="g-title font-black mb-3">🔍 智慧查表教學</div>
             <ul class="g-list text-sm">
-                <li><b>選擇目標：</b>設定您的目的地與想搭乘的艙等（如商務艙）。</li>
-                <li><b>智能防呆：</b>ANA 會依據您選擇的淡旺季自動跳動標準，星盟則固定。長程線若無頭等艙也會智能提示。</li>
-                <li><b>勾選比對：</b>在清單中勾選您擁有的里程，系統會自動結算並亮起紅/綠燈，告訴您還差多少。</li>
-                <li><b>直達官網：</b>確認足夠後，點擊<b>「🔗 立即兌換」</b>即可安全另開視窗前往官網開票！</li>
+                <li><b>📅 日期智慧導航：</b>只要選好出發日期，系統會全自動比對 2025-2027 官方季節表，精準判定 ANA 淡旺季 (L/R/H)。</li>
+                <li><b>🔄 一鍵單程切換：</b>點選行程類型，可自由切換「來回」或「單程」，所需哩程將自動精算（已支援 ANA 最新單程兌換規則）。</li>
+                <li><b>☑️ 資產缺口比對：</b>勾選下方倉庫內的哩程，系統自動結算差額並亮起紅/綠燈。</li>
             </ul>
+            <p class="text-sm mt-3 pt-3 mb-0 border-top border-dark border-opacity-10">⚠️ <b>提醒</b>：顯示數值僅供規劃參考，<b>實際位置狀態</b>與精確標準請以航空公司官網即時查詢為準。</p>
         </div>
         `;
         document.getElementById('guide-content').innerHTML = content; showModal('guideModal');
