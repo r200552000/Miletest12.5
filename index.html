@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5</title>
+  <title>TDC環哩匯 x 航空卡消費累哩工具 v12.5.1</title>
 
   <!-- 外部資源 -->
   <link href="[https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Varela+Round&family=Mali:wght@500;700&family=Noto+Sans+TC:wght@400;700;900&display=swap)" rel="stylesheet">
@@ -12,7 +12,6 @@
   <style>
     /* =========================
        排版防禦系統 (Previewer Fallback CSS)
-       確保沒有 Bootstrap 時，版面依然完美對齊
        ========================= */
     .row { display: flex; flex-wrap: wrap; margin-left: -5px; margin-right: -5px; }
     .col-5 { width: 41.666%; padding-left: 5px; padding-right: 5px; box-sizing: border-box; }
@@ -269,7 +268,7 @@
     <div class="d-flex align-items-center">
       <div class="header-icon"><svg class="lucide"><use href="#icon-plane"/></svg></div>
       <div class="header-title">
-        <h5>TDC 航空累哩工具<br>v12.5</h5>
+        <h5>TDC 航空累哩工具<br>v12.5.1</h5>
         <small class="text-secondary fw-bold"><svg class="lucide me-1" style="font-size:0.8em;vertical-align:-0.1em;"><use href="#icon-gear"/></svg>專業會計版 + 終極規劃器</small>
       </div>
     </div>
@@ -335,10 +334,10 @@
                 <input type="number" id="fx-rate-input" class="form-control" placeholder="輸入匯率" inputmode="decimal" min="0" step="0.0001">
                 <span class="input-group-text bg-white" style="border: 2px solid #cbd5e1; border-left: none;">TWD</span>
             </div>
-            <!-- 純淨原生 a 標籤跳轉 -->
-            <a href="[https://rate.bot.com.tw/xrt?Lang=zh-TW](https://rate.bot.com.tw/xrt?Lang=zh-TW)" target="_blank" rel="noopener noreferrer" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem; background:white; display:flex; align-items:center; justify-content:center;">
+            <!-- 【核心防護：台銀 Base64 跳轉】杜絕 Markdown Parser 破壞 -->
+            <button onclick="window.open(atob('aHR0cHM6Ly9yYXRlLmJvdC5jb20udHcveHJ0P0xhbmc9emgtVFc='), '_blank')" class="btn-outline-primary w-100 mt-2 text-decoration-none" style="font-size:0.8rem; background:white; display:flex; align-items:center; justify-content:center;">
                 <svg class="lucide me-1"><use href="#icon-bank"/></svg> 查詢臺銀牌告匯率
-            </a>
+            </button>
         </div>
 
         <div class="mb-3 mt-3">
@@ -631,10 +630,10 @@
 
   <script>
     /* =========================
-       TDC Miles Tool v12.5 終極純淨隔離版 (Base64防禦型)
+       TDC Miles Tool v12.5.1 終極完全體 (Base64防護 + 教學補完)
        ========================= */
 
-    // 【核心防護 1】隔離資料庫，保護 12.32 舊有資料
+    // 隔離資料庫，保護 12.32 舊有資料
     const DB_KEY = 'MILES_APP_V12_5_ISOLATED'; 
     const RULES_KEY = 'MILES_APP_RULES_V12_5';
     let correctionTarget = { id: null, name: null };
@@ -673,7 +672,7 @@
         'ctbc_ci': { name: '中信 華航鼎尊', calc: (ctx) => { if (CTBC_BLOCK.some(w => ctx.kwKey.includes(w))) return { miles:0, note:'🚫 非回饋' }; const isOnline = STRICT_ONLINE.includes(ctx.cat) || ctx.pay === 'online'; const isTruePhysical = !isOnline && (ctx.pay === 'physical' || ctx.pay === 'apple_pay'); let div = 18, n = '一般 $18'; if(ctx.cat === 'flight_ci') { div=9; n='華航官網 $9'; } else if(ctx.isForeign) { if(isTruePhysical) { div = ctx.isBirthday ? 6 : 9; n = ctx.isBirthday ? '生日實體 $6' : '海外實體 $9'; } else { div=18; n='海外網購 $18'; } } return { miles: Math.trunc(ctx.twdBase/div), note: n }; } }
     };
 
-    // 【核心防護 2】Base64 加密法：100% 免疫聊天平台網址掃描機器人破壞
+    // Base64 加密法：100% 免疫聊天平台網址掃描機器人破壞
     const b64_CI = 'aHR0cHM6Ly93d3cuY2hpbmEtYWlybGluZXMuY29tL3R3L3poL21lbWJlci9yZWRlZW0tYWlybGluZS1taWxlcy9yZXdhcmQtdGlja2V0';
     const b64_BR = 'aHR0cHM6Ly93d3cuZXZhYWlyLmNvbS96aC10dy9pbmZpbml0eS1taWxlYWdlbGFuZHMvbWlsZWFnZS1hd2FyZC1wcm9ncmFtL21pbGVhZ2UtcmVkZW1wdGlvbi9hd2FyZC10aWNrZXQvZXZhLXVuaS1haXIv';
     const b64_CX = 'aHR0cHM6Ly93d3cuY2F0aGF5cGFjaWZpYy5jb20vY3gvemhfVFcuaHRtbA==';
@@ -1100,7 +1099,7 @@
             const pct = requiredMiles > 0 ? Math.min(100, (availMiles / requiredMiles) * 100) : 0;
             const statusHtml = isEnough ? `<span class="text-success d-flex align-items-center"><svg class="lucide me-1"><use href="#icon-check-c"/></svg> 可兌換</span>` : `<span class="text-danger">尚缺 ${ (requiredMiles - availMiles).toLocaleString() }</span>`;
             
-            // 【核心防護 3】前端即時解碼 Base64，生成 100% 免疫破壞的原生 a 標籤
+            // 前端即時解碼 Base64 網址
             const decodedUrl = atob(data.linkB64);
             
             return `
@@ -1160,15 +1159,25 @@
     function updateUI() { renderList(); renderStatus(); }
     function showAlert(msg) { document.getElementById('alert-msg').innerText=msg; showModal('customAlertModal'); }
 
+    // 【新增里程查詢教學 Slide 3】
     function openGuide() {
         const content = `
         <div class="guide-slide p-4 mb-4" style="background:var(--m-sage); color:white;">
-            <div class="g-badge bg-white/20 mb-2">核心架構</div><div class="g-title font-black mb-3">帳務流程</div>
-            <ul class="g-list text-sm"><li><b>Step 1 計算：</b>輸入金額與匯率，自動比拚。</li><li><b>Step 2 核對：</b>記帳後進入明細，可檢查刪除。</li><li><b>Step 3 進倉：</b>確認無誤後至監控一鍵歸戶。</li></ul>
+            <div class="g-badge bg-white/20 mb-2">基礎操作</div><div class="g-title font-black mb-3">帳務流程</div>
+            <ul class="g-list text-sm"><li><b>Step 1 計算：</b>輸入金額與匯率，自動比拚。</li><li><b>Step 2 核對：</b>記帳後進入「明細」，可隨時刪除或沖帳。</li><li><b>Step 3 進倉：</b>確認無誤後至「監控」一鍵歸戶。</li></ul>
         </div>
         <div class="guide-slide p-4 mb-4" style="background:var(--m-terra); color:white;">
-            <div class="g-badge bg-white/20 mb-2">全新功能</div><div class="g-title font-black mb-3">📍 兌換規劃器</div>
-            <p class="text-sm">在「倉庫」分頁中，點擊上方的<b>「兌換試算」</b>切換。內建四大航司最新標準。<br><br>自由勾選持有的哩程，系統會自動轉換並告訴您距離目標還差多少！算完還能一鍵跳轉官方換票！</p>
+            <div class="g-badge bg-white/20 mb-2">進階應用</div><div class="g-title font-black mb-3">📍 兌換規劃器</div>
+            <p class="text-sm mb-0">在下方選單點擊<b>【倉庫】</b>，並切換上方的<b>【兌換試算】</b>標籤。系統已內建四大航司（華航、長榮、國泰、ANA）2026 最新兌換標準。</p>
+        </div>
+        <div class="guide-slide p-4 mb-4" style="background:var(--m-clay); color:#5e503f;">
+            <div class="g-badge bg-white/40 mb-2" style="color:#5e503f;">操作教學</div><div class="g-title font-black mb-3">🔍 如何比對資產？</div>
+            <ul class="g-list text-sm">
+                <li><b>選擇目標：</b>設定您的目的地與想搭乘的艙等（如商務艙）。</li>
+                <li><b>智能防呆：</b>ANA 會依據您選擇的淡旺季自動跳動標準，星盟則固定。長程線若無頭等艙也會智能提示。</li>
+                <li><b>勾選比對：</b>在清單中勾選您擁有的里程，系統會自動結算並亮起紅/綠燈，告訴您還差多少。</li>
+                <li><b>直達官網：</b>確認足夠後，點擊<b>「🔗 立即兌換」</b>即可安全另開視窗前往官網開票！</li>
+            </ul>
         </div>
         `;
         document.getElementById('guide-content').innerHTML = content; showModal('guideModal');
